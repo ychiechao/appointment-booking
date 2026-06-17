@@ -715,7 +715,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
-         collection, query, where, getDocs, serverTimestamp, writeBatch, addDoc }
+         collection, collectionGroup, query, where, getDocs, serverTimestamp, writeBatch, addDoc }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -1199,11 +1199,15 @@ async function loadUserDashboard() {
   document.getElementById('udAvatar').textContent = initials;
   document.getElementById('udName').textContent = CU.displayName || CU.email;
 
-  // 讀取 users/{uid}/bookings
-  const snap = await getDocs(collection(db,'users',CU.uid,'bookings'));
-  const bookings = snap.docs.map(d=>({id:d.id,...d.data()}))
-    .filter(b=>b.status==='confirmed')
-    .sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
+  // 跨店查詢所有預約
+  const q = query(collectionGroup(db,'bookings'), where('userId','==',CU.uid), where('status','==','confirmed'));
+  const snap = await getDocs(q);
+  const bookings = snap.docs.map(d=>{
+    const data = d.data();
+    // shopId 從路徑 shops/{shopId}/bookings/{id} 取得
+    const shopId = data.shopId || d.ref.parent.parent.id;
+    return {id:d.id, ...data, shopId};
+  }).sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
 
   const todayStr = toDStr(today);
 
