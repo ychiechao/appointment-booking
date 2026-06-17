@@ -1199,14 +1199,17 @@ async function loadUserDashboard() {
   document.getElementById('udAvatar').textContent = initials;
   document.getElementById('udName').textContent = CU.displayName || CU.email;
 
-  // 跨店查詢所有預約
-  const q = query(collectionGroup(db,'bookings'), where('userId','==',CU.uid));
-  const snap = await getDocs(q);
-  const bookings = snap.docs.map(d=>{
-    const data = d.data();
-    const shopId = data.shopId || d.ref.parent.parent.id;
-    return {id:d.id, ...data, shopId};
-  }).filter(b=>b.status==='confirmed')
+  // 讀所有店家，再各別查該用戶預約
+  const shopsSnap = await getDocs(collection(db,'shops'));
+  const allBk = [];
+  await Promise.all(shopsSnap.docs.map(async shopDoc => {
+    const sd = shopDoc.data();
+    const sName = sd.settings?.heroTitle || sd.settings?.serviceName || sd.settings?.shopName || sd.shopName || '';
+    const q2 = query(collection(db,'shops',shopDoc.id,'bookings'), where('userId','==',CU.uid));
+    const s2 = await getDocs(q2);
+    s2.docs.forEach(d => allBk.push({id:d.id, ...d.data(), shopId:shopDoc.id, shopName: d.data().shopName||sName}));
+  }));
+  const bookings = allBk.filter(b=>b.status==='confirmed')
     .sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
 
   const todayStr = toDStr(today);
