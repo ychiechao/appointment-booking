@@ -396,11 +396,25 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
 
   <!-- BOOKINGS -->
   <div class="admin-panel" id="panel-bookings">
+    <!-- 月曆 -->
     <div class="card">
-      <div class="card-title">預約管理</div>
-      <div style="display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap">
-        <input type="date" id="filterDate" style="flex:1;min-width:120px" onchange="filterBookings()">
-        <input type="text" id="filterKeyword" placeholder="搜尋姓名/電話" style="flex:2;min-width:140px" oninput="filterBookings()">
+      <div class="calendar-header">
+        <button class="cal-nav" onclick="changeAdminMonth(-1)">‹</button>
+        <h3 id="adminCalTitle" style="font-size:1rem;font-weight:600"></h3>
+        <button class="cal-nav" onclick="changeAdminMonth(1)">›</button>
+      </div>
+      <div class="calendar-grid" id="adminCalGrid"></div>
+      <div style="display:flex;gap:1rem;margin-top:.75rem;font-size:.78rem;color:var(--g600)">
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary);margin-right:4px"></span>有預約</span>
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success);margin-right:4px"></span>今天</span>
+      </div>
+    </div>
+    <!-- 篩選列 -->
+    <div class="card">
+      <div style="display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap;align-items:center">
+        <div style="flex:1;font-weight:600;font-size:.95rem" id="bookingPanelTitle">所有預約</div>
+        <input type="text" id="filterKeyword" placeholder="搜尋姓名/電話" style="width:180px" oninput="filterBookings()">
+        <button class="btn btn-outline btn-sm" onclick="clearDateFilter()">全部</button>
       </div>
       <div id="adminBookingList"></div>
     </div>
@@ -1038,7 +1052,7 @@ async function loadAdminData() {
   const snap=await getDocs(collection(db,'shops',myShopId,'bookings'));
   allBookings=snap.docs.map(d=>({id:d.id,...d.data()})).filter(b=>b.status==='confirmed');
   allBookings.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
-  filterBookings(); renderStatsTable();
+  renderAdminCal(); filterBookings(); renderStatsTable();
 }
 
 async function renderAdminToday() {
@@ -1105,24 +1119,115 @@ window.toggleSlotClosed = async (dateStr, time, close) => {
   renderAdminToday();
 };
 
+// ── ADMIN CALENDAR ───────────────────────────────────────────────────────────
+let adminCalYear = today.getFullYear(), adminCalMonth = today.getMonth();
+let adminFilterDate = null;
+
+window.changeAdminMonth = d => {
+  adminCalMonth += d;
+  if(adminCalMonth > 11){adminCalMonth=0;adminCalYear++;}
+  if(adminCalMonth < 0){adminCalMonth=11;adminCalYear--;}
+  renderAdminCal();
+};
+
+function renderAdminCal() {
+  const grid = document.getElementById('adminCalGrid');
+  if(!grid) return;
+  document.getElementById('adminCalTitle').textContent = `${adminCalYear} 年 ${adminCalMonth+1} 月`;
+
+  // count bookings per date this month
+  const counts = {};
+  allBookings.forEach(b => { counts[b.date] = (counts[b.date]||0) + 1; });
+
+  const dayNames = ['日','一','二','三','四','五','六'];
+  grid.innerHTML = dayNames.map(d=>`<div class="cal-day-name">${d}</div>`).join('');
+
+  const first = new Date(adminCalYear, adminCalMonth, 1).getDay();
+  for(let i=0;i<first;i++) grid.innerHTML += `<div class="cal-day empty"></div>`;
+
+  const dim = new Date(adminCalYear, adminCalMonth+1, 0).getDate();
+  const todayStr = toDStr(today);
+  for(let d=1;d<=dim;d++){
+    const dateStr = `${adminCalYear}-${String(adminCalMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cnt = counts[dateStr] || 0;
+    const isToday = dateStr === todayStr;
+    const isSel = dateStr === adminFilterDate;
+    let cls = 'cal-day';
+    if(isToday) cls += ' today';
+    if(isSel) cls += ' selected';
+    const dot = cnt > 0
+      ? `<div style="width:6px;height:6px;border-radius:50%;background:${isSel?'white':'var(--primary)'};margin:2px auto 0"></div>`
+      : '';
+    const badge = cnt > 0
+      ? `<span style="position:absolute;top:1px;right:3px;font-size:.6rem;font-weight:700;color:${isSel?'white':'var(--primary)'}">${cnt}</span>`
+      : '';
+    grid.innerHTML += `<div class="${cls}" style="position:relative" onclick="selectAdminDate('${dateStr}')">${d}${dot}${badge}</div>`;
+  }
+}
+
+window.selectAdminDate = dateStr => {
+  adminFilterDate = dateStr;
+  renderAdminCal();
+  filterBookings();
+};
+
+window.clearDateFilter = () => {
+  adminFilterDate = null;
+  renderAdminCal();
+  filterBookings();
+};
+
 window.filterBookings = () => {
-  const df=document.getElementById('filterDate').value, kw=document.getElementById('filterKeyword').value.trim().toLowerCase();
-  let list=allBookings;
-  if(df) list=list.filter(b=>b.date===df);
-  if(kw) list=list.filter(b=>b.userName?.toLowerCase().includes(kw)||b.userPhone?.includes(kw));
-  const el=document.getElementById('adminBookingList');
-  el.innerHTML=list.length?list.map(b=>`
+  const kw = document.getElementById('filterKeyword').value.trim().toLowerCase();
+  let list = allBookings;
+  if(adminFilterDate) list = list.filter(b=>b.date===adminFilterDate);
+  if(kw) list = list.filter(b=>b.userName?.toLowerCase().includes(kw)||b.userPhone?.includes(kw));
+
+  const title = document.getElementById('bookingPanelTitle');
+  if(title) title.textContent = adminFilterDate ? `${fmtDate(adminFilterDate)} 的預約（${list.length} 筆）` : `所有預約（${allBookings.length} 筆）`;
+
+  const el = document.getElementById('adminBookingList');
+  el.innerHTML = list.length ? list.map(b=>`
     <div class="booking-item">
       <div class="booking-info">
         <div class="date">${fmtDate(b.date)} ${b.time}</div>
         <div class="text-sm">${b.userName} · ${b.userPhone}</div>
         <span class="svc-tag">${b.service}</span>
+        ${b.note?`<div class="text-sm" style="margin-top:.2rem">📝 ${b.note}</div>`:''}
       </div>
-      <div class="booking-actions">
-        <button class="btn btn-outline btn-sm" onclick="openEditBookModal('${b.id}')">✏</button>
-        <button class="btn btn-danger btn-sm" onclick="askCancel('${b.id}')">✕</button>
+      <div class="booking-actions" style="flex-direction:column;align-items:flex-end;gap:.35rem">
+        <div class="flex gap-2">
+          <button class="btn btn-outline btn-sm" onclick="openEditBookModal('${b.id}')">✏</button>
+          <button class="btn btn-danger btn-sm" onclick="askCancel('${b.id}')">✕</button>
+        </div>
+        <button class="btn btn-sm" style="background:#4285F4;color:white;font-size:.75rem;padding:.25rem .55rem" onclick="addToGoogleCal('${b.id}')">📅 行事曆</button>
       </div>
-    </div>`).join(''):`<p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--g400)">無符合條件</p>`;
+    </div>`).join('')
+    : `<p class="text-sm" style="text-align:center;padding:1.5rem 0;color:var(--g400)">${adminFilterDate?'此日無預約':'無預約紀錄'}</p>`;
+};
+
+window.addToGoogleCal = (id) => {
+  const b = allBookings.find(x=>x.id===id); if(!b) return;
+  const svcItem = shopSettings.serviceItems?.find(s=>s.name===b.service);
+  const durationMin = svcItem?.duration || 60;
+
+  // 解析日期時間
+  const [yr,mo,dy] = b.date.split('-').map(Number);
+  const [hr,mn] = b.time.split(':').map(Number);
+  const start = new Date(yr,mo-1,dy,hr,mn);
+  const end = new Date(start.getTime() + durationMin*60000);
+
+  const fmt = d => `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}T${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}00`;
+
+  const shopName = shopSettings.serviceName || shopSettings.heroTitle || '服務預約';
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: `${b.service} — ${b.userName}`,
+    dates: `${fmt(start)}/${fmt(end)}`,
+    details: `客戶：${b.userName}\n電話：${b.userPhone}\n服務：${b.service}${b.note?'\n備註：'+b.note:''}`,
+    location: shopSettings.address || shopName,
+  });
+  window.open(`https://calendar.google.com/calendar/render?${params.toString()}`, '_blank');
 };
 
 // ── STATS ─────────────────────────────────────────────────────────────────────
@@ -1399,6 +1504,7 @@ document.querySelectorAll('#viewAdmin .admin-tab').forEach(btn=>btn.addEventList
   document.getElementById('panel-'+btn.dataset.panel)?.classList.add('active');
   if(btn.dataset.panel==='stats') renderStatsTable();
   if(btn.dataset.panel==='today') renderAdminToday();
+  if(btn.dataset.panel==='bookings') { renderAdminCal(); filterBookings(); }
 }));
 
 function toDStr(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
