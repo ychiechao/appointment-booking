@@ -22,11 +22,9 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--gray-50); color: var(--gray-800); min-height: 100vh; }
 
-  /* NAV */
   nav { background: white; border-bottom: 1px solid var(--gray-200); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
   .nav-brand { font-weight: 700; font-size: 1.1rem; color: var(--primary); display: flex; align-items: center; gap: .5rem; }
   .nav-user { display: flex; align-items: center; gap: .75rem; }
-  .avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-light); }
   .avatar-placeholder { width: 34px; height: 34px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .85rem; }
   .nav-name { font-size: .9rem; font-weight: 500; }
   .badge-admin { background: var(--primary); color: white; font-size: .65rem; padding: 2px 6px; border-radius: 9999px; font-weight: 600; }
@@ -34,21 +32,23 @@
   .tab-btn { padding: .4rem .85rem; border: none; background: none; cursor: pointer; font-size: .88rem; color: var(--gray-600); border-bottom: 2px solid transparent; transition: all .15s; }
   .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
 
-  /* LAYOUT */
-  main { max-width: 800px; margin: 0 auto; padding: 1.5rem 1rem; }
+  main { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem; }
   .page { display: none; }
   .page.active { display: block; }
 
-  /* CARDS */
+  /* HERO BANNER */
+  .hero-banner { width: 100%; max-height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 1rem; display: block; }
+  .hero-title-block { margin-bottom: 1rem; }
+  .hero-title-block h2 { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+  .hero-title-block p { font-size: .88rem; color: var(--gray-600); margin-top: .2rem; }
+
   .card { background: white; border-radius: 12px; border: 1px solid var(--gray-200); padding: 1.25rem; margin-bottom: 1rem; }
   .card-title { font-size: .85rem; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .75rem; }
 
-  /* ANNOUNCEMENT */
   .announcement { background: linear-gradient(135deg, var(--primary-light), #E0E7FF); border-left: 3px solid var(--primary); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
   .announcement h3 { font-size: .9rem; font-weight: 600; color: var(--primary-dark); margin-bottom: .25rem; }
   .announcement p { font-size: .88rem; color: var(--gray-600); }
 
-  /* CALENDAR */
   .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
   .calendar-header h3 { font-size: 1rem; font-weight: 600; }
   .cal-nav { background: none; border: 1px solid var(--gray-200); border-radius: 6px; width: 30px; height: 30px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
@@ -61,27 +61,23 @@
   .cal-day.today { border: 2px solid var(--primary); font-weight: 600; }
   .cal-day.disabled { color: var(--gray-400); cursor: not-allowed; }
   .cal-day.empty { cursor: default; }
-  .cal-day.has-slots::after { content: ''; display: block; width: 5px; height: 5px; background: var(--success); border-radius: 50%; margin: 2px auto 0; }
-  .cal-day.selected::after { background: white; }
 
-  /* SLOTS */
-  .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: .5rem; }
-  .slot { padding: .45rem .5rem; border-radius: 8px; text-align: center; font-size: .88rem; font-weight: 500; cursor: pointer; border: 1.5px solid transparent; transition: all .15s; }
+  .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: .5rem; }
+  .slot { padding: .45rem .5rem; border-radius: 8px; text-align: center; font-size: .82rem; font-weight: 500; cursor: pointer; border: 1.5px solid transparent; transition: all .15s; line-height: 1.3; }
+  .slot .slot-cap { font-size: .7rem; opacity: .8; }
   .slot.available { border-color: var(--success); color: var(--success); background: #F0FDF4; }
   .slot.available:hover { background: var(--success); color: white; }
   .slot.available.selected { background: var(--success); color: white; }
   .slot.booked { border-color: var(--gray-200); color: var(--gray-400); background: var(--gray-100); cursor: not-allowed; }
   .slot.mine { border-color: var(--primary); color: var(--primary); background: var(--primary-light); cursor: default; }
-  .slot.closed { border-color: var(--gray-200); color: var(--gray-400); background: var(--gray-100); cursor: not-allowed; font-size: .75rem; }
+  .slot.closed { border-color: var(--gray-200); color: var(--gray-400); background: var(--gray-100); cursor: not-allowed; }
 
-  /* BOOKING FORM */
   .form-group { margin-bottom: .85rem; }
   label { display: block; font-size: .85rem; font-weight: 500; margin-bottom: .3rem; color: var(--gray-600); }
   input, textarea, select { width: 100%; padding: .55rem .75rem; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: .9rem; transition: border-color .15s; font-family: inherit; }
   input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); }
   textarea { resize: vertical; min-height: 70px; }
 
-  /* BUTTONS */
   .btn { display: inline-flex; align-items: center; gap: .4rem; padding: .55rem 1.1rem; border: none; border-radius: 8px; font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .15s; }
   .btn-primary { background: var(--primary); color: white; }
   .btn-primary:hover { background: var(--primary-dark); }
@@ -90,23 +86,26 @@
   .btn-outline { background: white; color: var(--gray-800); border: 1.5px solid var(--gray-200); }
   .btn-outline:hover { background: var(--gray-100); }
   .btn-success { background: var(--success); color: white; }
+  .btn-warning { background: var(--warning); color: white; }
   .btn-sm { padding: .3rem .65rem; font-size: .8rem; }
   .btn:disabled { opacity: .5; cursor: not-allowed; }
   .btn-google { background: white; border: 1.5px solid var(--gray-200); color: var(--gray-800); padding: .7rem 1.5rem; font-size: .95rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
   .btn-google:hover { background: var(--gray-50); box-shadow: 0 2px 6px rgba(0,0,0,.15); }
 
-  /* MY BOOKINGS */
   .booking-item { display: flex; align-items: center; justify-content: space-between; padding: .75rem 0; border-bottom: 1px solid var(--gray-100); }
   .booking-item:last-child { border-bottom: none; }
   .booking-info .date { font-weight: 600; font-size: .9rem; }
   .booking-info .time { color: var(--gray-600); font-size: .85rem; }
-  .booking-info .service { font-size: .82rem; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 9999px; display: inline-block; margin-top: .2rem; }
-  .booking-actions { display: flex; gap: .4rem; }
-  .status-badge { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: .75rem; font-weight: 600; }
-  .status-confirmed { background: #D1FAE5; color: #065F46; }
-  .status-cancelled { background: #FEE2E2; color: #991B1B; }
+  .booking-info .service-tag { font-size: .82rem; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 9999px; display: inline-block; margin-top: .2rem; }
+  .booking-actions { display: flex; gap: .4rem; flex-shrink: 0; }
 
-  /* ADMIN */
+  /* ADMIN SUB-TABS */
+  .admin-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--gray-200); margin-bottom: 1rem; background: white; border-radius: 12px 12px 0 0; padding: 0 1rem; overflow-x: auto; }
+  .admin-tab { padding: .7rem 1rem; border: none; background: none; cursor: pointer; font-size: .88rem; color: var(--gray-600); border-bottom: 2px solid transparent; white-space: nowrap; transition: all .15s; }
+  .admin-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+  .admin-panel { display: none; }
+  .admin-panel.active { display: block; }
+
   .admin-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-bottom: 1rem; }
   .stat-card { background: white; border-radius: 10px; border: 1px solid var(--gray-200); padding: 1rem; text-align: center; }
   .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
@@ -123,13 +122,38 @@
   input:checked + .toggle-slider { background: var(--success); }
   input:checked + .toggle-slider:before { transform: translateX(20px); }
 
+  /* STATS */
+  .stats-period-btns { display: flex; gap: .4rem; margin-bottom: 1rem; }
+  .period-btn { padding: .35rem .8rem; border: 1.5px solid var(--gray-200); border-radius: 20px; background: white; cursor: pointer; font-size: .85rem; font-weight: 500; transition: all .15s; }
+  .period-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+  .stats-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  .stats-table th { text-align: left; padding: .5rem .75rem; background: var(--gray-100); color: var(--gray-600); font-size: .8rem; font-weight: 600; }
+  .stats-table td { padding: .5rem .75rem; border-bottom: 1px solid var(--gray-100); }
+  .stats-table tr:last-child td { border-bottom: none; }
+  .stats-bar { height: 6px; background: var(--primary-light); border-radius: 3px; margin-top: 4px; }
+  .stats-bar-fill { height: 6px; background: var(--primary); border-radius: 3px; }
+
+  /* SERVICE ITEMS */
+  .service-item-card { border: 1px solid var(--gray-200); border-radius: 10px; padding: .85rem 1rem; margin-bottom: .6rem; display: flex; align-items: center; justify-content: space-between; }
+  .service-item-info .name { font-weight: 600; font-size: .92rem; }
+  .service-item-info .meta { font-size: .8rem; color: var(--gray-600); margin-top: .2rem; display: flex; gap: .75rem; }
+  .meta-chip { background: var(--gray-100); padding: 1px 6px; border-radius: 4px; }
+
   /* SETTINGS */
-  .settings-section { margin-bottom: 1.25rem; }
+  .settings-section { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-100); }
+  .settings-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .settings-section h4 { font-size: .9rem; font-weight: 700; margin-bottom: .75rem; color: var(--gray-800); }
   .chip-list { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
   .chip { background: var(--primary-light); color: var(--primary); padding: .25rem .6rem; border-radius: 9999px; font-size: .82rem; font-weight: 500; display: flex; align-items: center; gap: .3rem; }
   .chip-remove { cursor: pointer; font-size: 1rem; line-height: 1; color: var(--primary-dark); }
 
-  /* LOGIN PAGE */
+  /* COLOR THEME SWATCHES */
+  .theme-swatches { display: flex; gap: .6rem; margin-top: .5rem; flex-wrap: wrap; }
+  .theme-swatch { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all .15s; position: relative; }
+  .theme-swatch.active { border-color: var(--gray-800); }
+  .theme-swatch .check { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: .9rem; font-weight: 700; }
+
+  /* LOGIN */
   .login-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100vh - 60px); text-align: center; padding: 2rem; }
   .login-page h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: .5rem; }
   .login-page p { color: var(--gray-600); margin-bottom: 2rem; }
@@ -137,12 +161,11 @@
 
   /* MODAL */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
-  .modal { background: white; border-radius: 14px; padding: 1.5rem; width: 100%; max-width: 440px; }
+  .modal { background: white; border-radius: 14px; padding: 1.5rem; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
   .modal-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 1rem; }
   .modal-actions { display: flex; justify-content: flex-end; gap: .5rem; margin-top: 1.25rem; }
   .hidden { display: none !important; }
 
-  /* TOAST */
   .toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300; display: flex; flex-direction: column; gap: .5rem; }
   .toast { background: var(--gray-800); color: white; padding: .65rem 1rem; border-radius: 8px; font-size: .88rem; animation: slideIn .2s ease; max-width: 280px; }
   .toast.success { background: var(--success); }
@@ -161,21 +184,19 @@
   @media (max-width: 480px) {
     .admin-stats { grid-template-columns: repeat(3, 1fr); }
     .stat-number { font-size: 1.4rem; }
-    .slots-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-brand">✂️ <span id="serviceName">服務預約</span></div>
+  <div class="nav-brand" id="navBrand">✂️ <span id="serviceName">服務預約</span></div>
   <div class="tab-nav" id="tabNav" style="display:none">
     <button class="tab-btn active" data-page="user">預約</button>
     <button class="tab-btn" data-page="admin" id="adminTab" style="display:none">管理</button>
   </div>
   <div class="nav-user">
-    <div id="navUser" style="display:none; align-items:center; gap:.6rem; display:none">
+    <div id="navUser" style="display:none; align-items:center; gap:.6rem">
       <div class="avatar-placeholder" id="avatarPlaceholder">U</div>
       <span class="nav-name" id="navName"></span>
       <span class="badge-admin hidden" id="adminBadge">管理員</span>
@@ -190,7 +211,6 @@
   </div>
 </nav>
 
-<!-- MAIN -->
 <main>
 
   <!-- LOGIN PAGE -->
@@ -206,14 +226,17 @@
 
   <!-- USER PAGE -->
   <div id="userPage" class="page">
+    <img id="heroBannerImg" class="hero-banner hidden" src="" alt="banner">
+    <div class="hero-title-block" id="heroTitleBlock" style="display:none">
+      <h2 id="heroTitle"></h2>
+      <p id="heroSubtitle"></p>
+    </div>
 
-    <!-- Announcement -->
     <div class="announcement" id="announcementBlock">
       <h3>📢 公告</h3>
       <p id="announcementText">歡迎使用線上預約系統！如有疑問請來電洽詢。</p>
     </div>
 
-    <!-- Calendar -->
     <div class="card">
       <div class="card-title">選擇日期</div>
       <div class="calendar-header">
@@ -224,7 +247,6 @@
       <div class="calendar-grid" id="calendarGrid"></div>
     </div>
 
-    <!-- Slots -->
     <div class="card" id="slotsCard" style="display:none">
       <div class="flex justify-between items-center" style="margin-bottom:.75rem">
         <div class="card-title" style="margin:0">選擇時段 — <span id="selectedDateLabel"></span></div>
@@ -233,7 +255,6 @@
       <div class="slots-grid" id="slotsGrid"></div>
     </div>
 
-    <!-- Booking Form -->
     <div class="card" id="bookingFormCard" style="display:none">
       <div class="card-title">填寫預約資料</div>
       <div class="info-row">
@@ -251,9 +272,7 @@
       </div>
       <div class="form-group">
         <label>服務項目</label>
-        <select id="bookingService">
-          <option value="">請選擇服務</option>
-        </select>
+        <select id="bookingService"></select>
       </div>
       <div class="form-group">
         <label>備註（選填）</label>
@@ -265,153 +284,223 @@
       </div>
     </div>
 
-    <!-- My Bookings -->
     <div class="card">
       <div class="card-title">我的預約</div>
-      <div id="myBookingsList">
-        <p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--gray-400)">尚無預約紀錄</p>
-      </div>
+      <div id="myBookingsList"><p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--gray-400)">尚無預約紀錄</p></div>
     </div>
   </div>
 
   <!-- ADMIN PAGE -->
   <div id="adminPage" class="page">
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-panel="today">今日預約</button>
+      <button class="admin-tab" data-panel="bookings">預約管理</button>
+      <button class="admin-tab" data-panel="stats">統計</button>
+      <button class="admin-tab" data-panel="services">服務項目</button>
+      <button class="admin-tab" data-panel="settings">系統設定</button>
+    </div>
 
-    <!-- Today Stats -->
-    <div class="admin-stats" id="adminStats">
-      <div class="stat-card">
-        <div class="stat-number" id="statTotal">0</div>
-        <div class="stat-label">總時段</div>
+    <!-- TODAY -->
+    <div class="admin-panel active" id="panel-today">
+      <div class="admin-stats">
+        <div class="stat-card"><div class="stat-number" id="statTotal">0</div><div class="stat-label">總時段</div></div>
+        <div class="stat-card"><div class="stat-number" id="statBooked" style="color:var(--warning)">0</div><div class="stat-label">已預約</div></div>
+        <div class="stat-card"><div class="stat-number" id="statAvail" style="color:var(--success)">0</div><div class="stat-label">可預約</div></div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number" id="statBooked" style="color:var(--warning)">0</div>
-        <div class="stat-label">已預約</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="statAvail" style="color:var(--success)">0</div>
-        <div class="stat-label">可預約</div>
+      <div class="card">
+        <div class="flex justify-between items-center" style="margin-bottom:.75rem">
+          <div>
+            <div class="card-title" style="margin:0">今日排程</div>
+            <div class="text-sm" id="adminTodayLabel"></div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm">開放預約</span>
+            <label class="toggle-switch"><input type="checkbox" id="todayToggle" onchange="toggleTodayOpen()"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+        <div id="adminSlotList"></div>
+        <div style="margin-top:.75rem;display:flex;gap:.5rem">
+          <button class="btn btn-outline btn-sm" onclick="openAdminBookModal()">＋ 新增預約</button>
+          <button class="btn btn-outline btn-sm" onclick="openSetCapacityModal()">⚙ 設定時段人數</button>
+        </div>
       </div>
     </div>
 
-    <!-- Today Schedule -->
-    <div class="card">
-      <div class="flex justify-between items-center" style="margin-bottom:.75rem">
-        <div>
-          <div class="card-title" style="margin:0">今日預約</div>
-          <div class="text-sm" id="adminTodayLabel"></div>
+    <!-- BOOKINGS -->
+    <div class="admin-panel" id="panel-bookings">
+      <div class="card">
+        <div class="card-title">預約管理</div>
+        <div style="display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap">
+          <input type="date" id="filterDate" style="flex:1;min-width:120px" onchange="filterBookings()">
+          <input type="text" id="filterKeyword" placeholder="搜尋姓名/電話" style="flex:2;min-width:140px" oninput="filterBookings()">
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-sm">開放預約</span>
-          <label class="toggle-switch">
-            <input type="checkbox" id="todayToggle" onchange="toggleTodayOpen()">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-      <div id="adminSlotList"></div>
-      <div style="margin-top:.75rem">
-        <button class="btn btn-outline btn-sm" onclick="openAdminBookModal()">＋ 新增預約</button>
+        <div id="adminBookingList"></div>
       </div>
     </div>
 
-    <!-- Manage Bookings -->
-    <div class="card">
-      <div class="card-title">預約管理</div>
-      <div style="display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap">
-        <input type="date" id="filterDate" style="flex:1;min-width:120px" onchange="filterBookings()">
-        <input type="text" id="filterKeyword" placeholder="搜尋姓名/電話" style="flex:2;min-width:140px" oninput="filterBookings()">
+    <!-- STATS -->
+    <div class="admin-panel" id="panel-stats">
+      <div class="card">
+        <div class="flex justify-between items-center" style="margin-bottom:.75rem">
+          <div class="card-title" style="margin:0">預約統計</div>
+          <button class="btn btn-outline btn-sm" onclick="downloadCSV()">⬇ 下載 CSV</button>
+        </div>
+        <div class="stats-period-btns">
+          <button class="period-btn active" data-period="daily" onclick="switchStatsPeriod(this)">每日</button>
+          <button class="period-btn" data-period="weekly" onclick="switchStatsPeriod(this)">每週</button>
+          <button class="period-btn" data-period="monthly" onclick="switchStatsPeriod(this)">每月</button>
+        </div>
+        <div id="statsTableWrap"></div>
       </div>
-      <div id="adminBookingList"></div>
     </div>
 
-    <!-- Settings -->
-    <div class="card">
-      <div class="card-title">系統設定</div>
-
-      <div class="settings-section">
-        <label>服務名稱</label>
-        <div class="flex gap-2 mt-1">
-          <input type="text" id="settingServiceName" placeholder="如：王氏牙醫診所">
-          <button class="btn btn-outline btn-sm" onclick="saveServiceName()">儲存</button>
+    <!-- SERVICES -->
+    <div class="admin-panel" id="panel-services">
+      <div class="card">
+        <div class="flex justify-between items-center" style="margin-bottom:.75rem">
+          <div class="card-title" style="margin:0">服務項目管理</div>
+          <button class="btn btn-primary btn-sm" onclick="openServiceModal()">＋ 新增項目</button>
         </div>
+        <div id="serviceItemList"></div>
       </div>
+    </div>
 
-      <div class="settings-section">
-        <label>可預約區間</label>
-        <div class="flex gap-2 mt-1">
-          <select id="settingBookingWindow" style="flex:1">
-            <option value="1">1 週內</option>
-            <option value="2" selected>2 週內</option>
-            <option value="3">3 週內</option>
-            <option value="4">4 週內</option>
-          </select>
-          <button class="btn btn-outline btn-sm" onclick="saveBookingWindow()">儲存</button>
-        </div>
-      </div>
+    <!-- SETTINGS -->
+    <div class="admin-panel" id="panel-settings">
+      <div class="card">
 
-      <div class="settings-section">
-        <label>服務項目</label>
-        <div class="flex gap-2 mt-1">
-          <input type="text" id="newServiceType" placeholder="新增服務項目">
-          <button class="btn btn-outline btn-sm" onclick="addServiceType()">新增</button>
+        <div class="settings-section">
+          <h4>🎨 外觀設定</h4>
+          <div class="form-group">
+            <label>預約頁標題</label>
+            <input type="text" id="settingHeroTitle" placeholder="如：奧特斯膜車體美容預約">
+          </div>
+          <div class="form-group">
+            <label>副標題 / 說明</label>
+            <input type="text" id="settingHeroSubtitle" placeholder="如：專業頂級車體鍍膜服務">
+          </div>
+          <div class="form-group">
+            <label>橫幅圖片 URL</label>
+            <input type="url" id="settingBannerUrl" placeholder="https://...（建議寬 860px 以上）">
+          </div>
+          <div class="form-group">
+            <label>色系版型</label>
+            <div class="theme-swatches" id="themeSwatches"></div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="saveAppearance()">儲存外觀設定</button>
         </div>
-        <div class="chip-list" id="serviceTypeList"></div>
-      </div>
 
-      <div class="settings-section">
-        <label>預設時段範本（每日）</label>
-        <div class="flex gap-2 mt-1">
-          <input type="time" id="newSlotTime">
-          <button class="btn btn-outline btn-sm" onclick="addSlotTemplate()">新增</button>
+        <div class="settings-section">
+          <h4>📅 預約設定</h4>
+          <div class="form-group">
+            <label>服務名稱（導覽列）</label>
+            <div class="flex gap-2">
+              <input type="text" id="settingServiceName" placeholder="如：王氏牙醫診所">
+              <button class="btn btn-outline btn-sm" onclick="saveServiceName()">儲存</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>可預約區間</label>
+            <div class="flex gap-2">
+              <select id="settingBookingWindow" style="flex:1">
+                <option value="1">1 週內</option>
+                <option value="2" selected>2 週內</option>
+                <option value="3">3 週內</option>
+                <option value="4">4 週內</option>
+              </select>
+              <button class="btn btn-outline btn-sm" onclick="saveBookingWindow()">儲存</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>每時段預設人數上限</label>
+            <div class="flex gap-2">
+              <input type="number" id="settingDefaultCapacity" min="1" max="99" value="1" style="max-width:100px">
+              <button class="btn btn-outline btn-sm" onclick="saveDefaultCapacity()">儲存</button>
+            </div>
+          </div>
         </div>
-        <div class="chip-list" id="slotTemplateList"></div>
-        <div style="margin-top:.6rem">
-          <button class="btn btn-primary btn-sm" onclick="applyTemplateToDay()">套用範本到選擇的日期</button>
-        </div>
-      </div>
 
-      <div class="settings-section">
-        <label>公告內容</label>
-        <div class="flex gap-2 mt-1" style="flex-direction:column">
-          <textarea id="settingAnnouncement" placeholder="輸入公告內容..."></textarea>
-          <button class="btn btn-primary btn-sm" onclick="saveAnnouncement()" style="align-self:flex-end">儲存公告</button>
+        <div class="settings-section">
+          <h4>⏰ 時段範本</h4>
+          <div class="flex gap-2 mt-1">
+            <input type="time" id="newSlotTime">
+            <button class="btn btn-outline btn-sm" onclick="addSlotTemplate()">新增</button>
+          </div>
+          <div class="chip-list" id="slotTemplateList"></div>
+          <div style="margin-top:.6rem">
+            <button class="btn btn-primary btn-sm" onclick="applyTemplateModal()">套用範本到指定日期</button>
+          </div>
         </div>
+
+        <div class="settings-section">
+          <h4>📢 公告</h4>
+          <div class="flex gap-2" style="flex-direction:column">
+            <textarea id="settingAnnouncement" placeholder="輸入公告內容..."></textarea>
+            <button class="btn btn-primary btn-sm" onclick="saveAnnouncement()" style="align-self:flex-end">儲存公告</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </main>
 
-<!-- MODAL: Admin Add/Edit Booking -->
+<!-- MODAL: Admin Book/Edit -->
 <div class="modal-overlay hidden" id="adminBookModal">
   <div class="modal">
     <div class="modal-title" id="adminModalTitle">新增預約</div>
-    <div class="form-group">
-      <label>日期</label>
-      <input type="date" id="adminBookDate">
-    </div>
-    <div class="form-group">
-      <label>時段</label>
-      <select id="adminBookSlot"></select>
-    </div>
-    <div class="form-group">
-      <label>姓名</label>
-      <input type="text" id="adminBookName" placeholder="客戶姓名">
-    </div>
-    <div class="form-group">
-      <label>電話</label>
-      <input type="tel" id="adminBookPhone" placeholder="聯絡電話">
-    </div>
-    <div class="form-group">
-      <label>服務項目</label>
-      <select id="adminBookService"></select>
-    </div>
-    <div class="form-group">
-      <label>備註</label>
-      <textarea id="adminBookNote" placeholder="備註..."></textarea>
-    </div>
+    <div class="form-group"><label>日期</label><input type="date" id="adminBookDate"></div>
+    <div class="form-group"><label>時段</label><select id="adminBookSlot"></select></div>
+    <div class="form-group"><label>姓名</label><input type="text" id="adminBookName" placeholder="客戶姓名"></div>
+    <div class="form-group"><label>電話</label><input type="tel" id="adminBookPhone" placeholder="聯絡電話"></div>
+    <div class="form-group"><label>服務項目</label><select id="adminBookService"></select></div>
+    <div class="form-group"><label>備註</label><textarea id="adminBookNote" placeholder="備註..."></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeModal('adminBookModal')">取消</button>
       <button class="btn btn-primary" onclick="confirmAdminBook()">確認</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Service Item -->
+<div class="modal-overlay hidden" id="serviceModal">
+  <div class="modal">
+    <div class="modal-title" id="serviceModalTitle">新增服務項目</div>
+    <div class="form-group"><label>服務名稱 *</label><input type="text" id="svcName" placeholder="如：全車鍍膜"></div>
+    <div class="form-group"><label>說明</label><textarea id="svcDesc" placeholder="服務內容說明..."></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+      <div class="form-group"><label>時長（分鐘）</label><input type="number" id="svcDuration" min="5" step="5" placeholder="60"></div>
+      <div class="form-group"><label>價格（元）</label><input type="number" id="svcPrice" min="0" placeholder="0"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('serviceModal')">取消</button>
+      <button class="btn btn-primary" onclick="confirmServiceSave()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Set Capacity -->
+<div class="modal-overlay hidden" id="capacityModal">
+  <div class="modal">
+    <div class="modal-title">設定今日時段人數上限</div>
+    <p class="text-sm" style="margin-bottom:1rem;color:var(--gray-600)">可對個別時段設定人數上限，留空則使用預設值（<span id="defaultCapHint">1</span> 人）。</p>
+    <div id="capacitySlotList"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('capacityModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveCapacities()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Apply Template -->
+<div class="modal-overlay hidden" id="applyTemplateModal">
+  <div class="modal">
+    <div class="modal-title">套用時段範本到指定日期</div>
+    <div class="form-group"><label>選擇日期</label><input type="date" id="applyTemplateDate"></div>
+    <p class="text-sm" style="color:var(--gray-600)">將套用以下時段：<strong id="templatePreview"></strong></p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('applyTemplateModal')">取消</button>
+      <button class="btn btn-primary" onclick="applyTemplateToDay()">套用</button>
     </div>
   </div>
 </div>
@@ -428,19 +517,16 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast-container" id="toastContainer"></div>
 
 <script type="module">
-// ─── Firebase SDK ───────────────────────────────────────────────────────────
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
-         collection, query, where, getDocs, onSnapshot, serverTimestamp, writeBatch }
+         collection, query, where, getDocs, serverTimestamp, writeBatch }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ─── CONFIG (替換成你的 Firebase 設定) ─────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyA_Rx6OHmVw-5vEUA9ZqYpC-2EnzBqZKEw",
   authDomain: "ychao-booking-schedule.firebaseapp.com",
@@ -454,535 +540,680 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ─── STATE ──────────────────────────────────────────────────────────────────
-let currentUser = null;
-let isAdmin = false;
+// ─── THEME DEFINITIONS ────────────────────────────────────────────────────────
+const THEMES = {
+  indigo: { label: '靛藍', color: '#4F46E5', light: '#EEF2FF', dark: '#3730A3' },
+  teal:   { label: '青綠', color: '#0D9488', light: '#F0FDFA', dark: '#0F766E' },
+  rose:   { label: '玫瑰', color: '#E11D48', light: '#FFF1F2', dark: '#BE123C' },
+  amber:  { label: '琥珀', color: '#D97706', light: '#FFFBEB', dark: '#B45309' },
+  violet: { label: '紫羅蘭', color: '#7C3AED', light: '#F5F3FF', dark: '#6D28D9' },
+};
+
+// ─── STATE ─────────────────────────────────────────────────────────────────────
+let currentUser = null, isAdmin = false;
 let settings = {
-  serviceName: "服務預約",
+  serviceName: '服務預約',
   bookingWindowWeeks: 2,
-  announcement: "歡迎使用線上預約系統！如有疑問請來電洽詢。",
-  serviceTypes: ["一般服務", "加強方案"],
-  slotTemplates: ["09:00","09:30","10:00","10:30","11:00","14:00","14:30","15:00","15:30","16:00"]
+  announcement: '歡迎使用線上預約系統！如有疑問請來電洽詢。',
+  serviceItems: [],   // [{id,name,desc,duration,price}]
+  slotTemplates: ['09:00','09:30','10:00','10:30','11:00','14:00','14:30','15:00','15:30','16:00'],
+  defaultSlotCapacity: 1,
+  heroTitle: '', heroSubtitle: '', bannerUrl: '',
+  colorTheme: 'indigo',
 };
 let calYear, calMonth;
-let selectedDate = null;
-let selectedSlot = null;
-let dailyData = {};      // { "2026-06-07": { isOpen, slots:{time:{status,bookingId}} } }
-let allBookings = [];    // 所有預約 (admin)
-let myBookings = [];     // 使用者自己的預約
-let editingBookingId = null;
+let selectedDate = null, selectedSlot = null;
+let dailyData = {};
+let allBookings = [], myBookings = [];
+let editingBookingId = null, editingServiceId = null;
+let currentStatsPeriod = 'daily';
 
-// ─── INIT ───────────────────────────────────────────────────────────────────
-const today = new Date();
-calYear = today.getFullYear();
-calMonth = today.getMonth();
+const today = new Date(); today.setHours(0,0,0,0);
+calYear = today.getFullYear(); calMonth = today.getMonth();
 
+// ─── AUTH ──────────────────────────────────────────────────────────────────────
 onAuthStateChanged(auth, async user => {
   if (user) {
     currentUser = user;
     await ensureUserDoc(user);
+    await checkAdmin();
     await loadSettings();
-    checkAdmin();
     setupUI();
     loadMyBookings();
     if (isAdmin) loadAdminData();
   } else {
-    currentUser = null;
-    isAdmin = false;
+    currentUser = null; isAdmin = false;
     showLoginPage();
   }
 });
 
-// ─── AUTH ───────────────────────────────────────────────────────────────────
 window.signInWithGoogle = async () => {
-  try {
-    await signInWithPopup(auth, new GoogleAuthProvider());
-  } catch(e) { toast("登入失敗：" + e.message, "error"); }
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch(e) { toast('登入失敗：' + e.message, 'error'); }
 };
 window.signOut = () => fbSignOut(auth);
 
 async function ensureUserDoc(user) {
-  const ref = doc(db, "users", user.uid);
+  const ref = doc(db, 'users', user.uid);
   const snap = await getDoc(ref);
-  if (!snap.exists()) {
-    await setDoc(ref, {
-      displayName: user.displayName,
-      email: user.email,
-      role: "user",
-      createdAt: serverTimestamp()
-    });
-  }
+  if (!snap.exists()) await setDoc(ref, { displayName: user.displayName, email: user.email, role: 'user', createdAt: serverTimestamp() });
 }
 
 async function checkAdmin() {
-  const snap = await getDoc(doc(db, "users", currentUser.uid));
-  isAdmin = snap.exists() && snap.data().role === "admin";
+  const snap = await getDoc(doc(db, 'users', currentUser.uid));
+  isAdmin = snap.exists() && snap.data().role === 'admin';
 }
 
-// ─── SETTINGS ───────────────────────────────────────────────────────────────
+// ─── SETTINGS ─────────────────────────────────────────────────────────────────
 async function loadSettings() {
-  const snap = await getDoc(doc(db, "settings", "global"));
+  const snap = await getDoc(doc(db, 'settings', 'global'));
   if (snap.exists()) Object.assign(settings, snap.data());
   applySettings();
 }
 
 function applySettings() {
-  document.getElementById("serviceName").textContent = settings.serviceName;
-  document.getElementById("announcementText").textContent = settings.announcement;
-  document.getElementById("settingServiceName").value = settings.serviceName;
-  document.getElementById("settingAnnouncement").value = settings.announcement;
-  document.getElementById("settingBookingWindow").value = settings.bookingWindowWeeks;
-  renderServiceTypes();
+  document.getElementById('serviceName').textContent = settings.serviceName;
+  document.getElementById('announcementText').textContent = settings.announcement;
+  document.getElementById('settingServiceName').value = settings.serviceName;
+  document.getElementById('settingAnnouncement').value = settings.announcement;
+  document.getElementById('settingBookingWindow').value = settings.bookingWindowWeeks;
+  document.getElementById('settingDefaultCapacity').value = settings.defaultSlotCapacity || 1;
+  document.getElementById('settingHeroTitle').value = settings.heroTitle || '';
+  document.getElementById('settingHeroSubtitle').value = settings.heroSubtitle || '';
+  document.getElementById('settingBannerUrl').value = settings.bannerUrl || '';
+  document.getElementById('defaultCapHint').textContent = settings.defaultSlotCapacity || 1;
+
+  // hero banner & title
+  const img = document.getElementById('heroBannerImg');
+  if (settings.bannerUrl) { img.src = settings.bannerUrl; img.classList.remove('hidden'); }
+  else img.classList.add('hidden');
+  const titleBlock = document.getElementById('heroTitleBlock');
+  if (settings.heroTitle) {
+    document.getElementById('heroTitle').textContent = settings.heroTitle;
+    document.getElementById('heroSubtitle').textContent = settings.heroSubtitle || '';
+    titleBlock.style.display = '';
+  } else titleBlock.style.display = 'none';
+
+  applyTheme(settings.colorTheme || 'indigo');
+  renderThemeSwatches();
   renderSlotTemplates();
+  renderServiceItems();
   populateServiceSelects();
   renderCalendar();
 }
 
 async function saveSettings(patch) {
   Object.assign(settings, patch);
-  await setDoc(doc(db, "settings", "global"), settings, { merge: true });
+  await setDoc(doc(db, 'settings', 'global'), settings, { merge: true });
   applySettings();
-  toast("設定已儲存");
+  toast('設定已儲存');
 }
 
-window.saveServiceName = () => saveSettings({ serviceName: document.getElementById("settingServiceName").value.trim() || "服務預約" });
-window.saveBookingWindow = () => saveSettings({ bookingWindowWeeks: parseInt(document.getElementById("settingBookingWindow").value) });
-window.saveAnnouncement = () => saveSettings({ announcement: document.getElementById("settingAnnouncement").value.trim() });
+function applyTheme(themeKey) {
+  const t = THEMES[themeKey] || THEMES.indigo;
+  const r = document.documentElement.style;
+  r.setProperty('--primary', t.color);
+  r.setProperty('--primary-light', t.light);
+  r.setProperty('--primary-dark', t.dark);
+}
 
-window.addServiceType = () => {
-  const v = document.getElementById("newServiceType").value.trim();
-  if (!v || settings.serviceTypes.includes(v)) return;
-  document.getElementById("newServiceType").value = "";
-  saveSettings({ serviceTypes: [...settings.serviceTypes, v] });
-};
-window.removeServiceType = (s) => saveSettings({ serviceTypes: settings.serviceTypes.filter(x => x !== s) });
+function renderThemeSwatches() {
+  document.getElementById('themeSwatches').innerHTML = Object.entries(THEMES).map(([key, t]) =>
+    `<div class="theme-swatch ${settings.colorTheme===key?'active':''}" style="background:${t.color}" title="${t.label}" onclick="selectTheme('${key}')">
+      <div class="check">${settings.colorTheme===key?'✓':''}</div>
+    </div>`).join('');
+}
+window.selectTheme = (key) => { settings.colorTheme = key; applyTheme(key); renderThemeSwatches(); };
+
+window.saveAppearance = () => saveSettings({
+  heroTitle: document.getElementById('settingHeroTitle').value.trim(),
+  heroSubtitle: document.getElementById('settingHeroSubtitle').value.trim(),
+  bannerUrl: document.getElementById('settingBannerUrl').value.trim(),
+  colorTheme: settings.colorTheme,
+});
+window.saveServiceName = () => saveSettings({ serviceName: document.getElementById('settingServiceName').value.trim() || '服務預約' });
+window.saveBookingWindow = () => saveSettings({ bookingWindowWeeks: parseInt(document.getElementById('settingBookingWindow').value) });
+window.saveDefaultCapacity = () => saveSettings({ defaultSlotCapacity: parseInt(document.getElementById('settingDefaultCapacity').value) || 1 });
+window.saveAnnouncement = () => saveSettings({ announcement: document.getElementById('settingAnnouncement').value.trim() });
 
 window.addSlotTemplate = () => {
-  const v = document.getElementById("newSlotTime").value;
+  const v = document.getElementById('newSlotTime').value;
   if (!v || settings.slotTemplates.includes(v)) return;
-  const sorted = [...settings.slotTemplates, v].sort();
-  saveSettings({ slotTemplates: sorted });
+  document.getElementById('newSlotTime').value = '';
+  saveSettings({ slotTemplates: [...settings.slotTemplates, v].sort() });
 };
-window.removeSlotTemplate = (s) => saveSettings({ slotTemplates: settings.slotTemplates.filter(x => x !== s) });
+window.removeSlotTemplate = s => saveSettings({ slotTemplates: settings.slotTemplates.filter(x => x !== s) });
 
-window.applyTemplateToDay = async () => {
-  const dateStr = document.getElementById("adminBookDate").value || dateToString(today);
-  const slots = {};
-  settings.slotTemplates.forEach(t => { slots[t] = { status: "available" }; });
-  await setDoc(doc(db, "dailySchedules", dateStr), { isOpen: true, slots }, { merge: false });
-  toast(`已套用範本到 ${dateStr}`);
-  loadDailyData(dateStr);
-};
-
-function renderServiceTypes() {
-  document.getElementById("serviceTypeList").innerHTML = settings.serviceTypes
-    .map(s => `<span class="chip">${s}<span class="chip-remove" onclick="removeServiceType('${s}')">×</span></span>`).join("");
-}
 function renderSlotTemplates() {
-  document.getElementById("slotTemplateList").innerHTML = settings.slotTemplates
-    .map(s => `<span class="chip">${s}<span class="chip-remove" onclick="removeSlotTemplate('${s}')">×</span></span>`).join("");
-}
-function populateServiceSelects() {
-  const opts = ["<option value=''>請選擇服務</option>",
-    ...settings.serviceTypes.map(s => `<option value="${s}">${s}</option>`)].join("");
-  ["bookingService","adminBookService"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.innerHTML = opts;
-  });
+  document.getElementById('slotTemplateList').innerHTML = settings.slotTemplates
+    .map(s => `<span class="chip">${s}<span class="chip-remove" onclick="removeSlotTemplate('${s}')">×</span></span>`).join('');
 }
 
-// ─── UI SETUP ───────────────────────────────────────────────────────────────
-function setupUI() {
-  document.getElementById("loginPage").style.display = "none";
-  document.getElementById("userPage").classList.add("active");
-  document.getElementById("tabNav").style.display = "flex";
-  document.getElementById("navLogin").style.display = "none";
-  document.getElementById("navUser").style.display = "flex";
-  document.getElementById("navName").textContent = currentUser.displayName || currentUser.email;
-  const initial = (currentUser.displayName || "U")[0].toUpperCase();
-  document.getElementById("avatarPlaceholder").textContent = initial;
-  if (isAdmin) {
-    document.getElementById("adminTab").style.display = "";
-    document.getElementById("adminBadge").classList.remove("hidden");
+// ─── SERVICE ITEMS ─────────────────────────────────────────────────────────────
+function renderServiceItems() {
+  const el = document.getElementById('serviceItemList');
+  if (!settings.serviceItems?.length) {
+    el.innerHTML = `<p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--gray-400)">尚無服務項目，請新增</p>`;
+    return;
   }
-  document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => switchPage(btn.dataset.page));
-  });
+  el.innerHTML = settings.serviceItems.map(s => `
+    <div class="service-item-card">
+      <div class="service-item-info">
+        <div class="name">${s.name}</div>
+        <div class="meta">
+          ${s.duration ? `<span class="meta-chip">⏱ ${s.duration} 分鐘</span>` : ''}
+          ${s.price !== undefined && s.price !== '' ? `<span class="meta-chip">💰 $${s.price}</span>` : ''}
+        </div>
+        ${s.desc ? `<div style="font-size:.8rem;color:var(--gray-600);margin-top:.25rem">${s.desc}</div>` : ''}
+      </div>
+      <div class="flex gap-2">
+        <button class="btn btn-outline btn-sm" onclick="openServiceModal('${s.id}')">✏</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteServiceItem('${s.id}')">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function populateServiceSelects() {
+  const opts = ['<option value="">請選擇服務</option>',
+    ...(settings.serviceItems||[]).map(s => `<option value="${s.name}">${s.name}${s.price?` ($${s.price})`:''}${s.duration?` · ${s.duration}分鐘`:''}</option>`)].join('');
+  ['bookingService','adminBookService'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = opts; });
+}
+
+window.openServiceModal = (id) => {
+  editingServiceId = id || null;
+  const item = id ? settings.serviceItems.find(s => s.id === id) : null;
+  document.getElementById('serviceModalTitle').textContent = item ? '編輯服務項目' : '新增服務項目';
+  document.getElementById('svcName').value = item?.name || '';
+  document.getElementById('svcDesc').value = item?.desc || '';
+  document.getElementById('svcDuration').value = item?.duration || '';
+  document.getElementById('svcPrice').value = item?.price ?? '';
+  document.getElementById('serviceModal').classList.remove('hidden');
+};
+
+window.confirmServiceSave = () => {
+  const name = document.getElementById('svcName').value.trim();
+  if (!name) { toast('請填寫服務名稱','error'); return; }
+  const item = { id: editingServiceId || Date.now().toString(), name,
+    desc: document.getElementById('svcDesc').value.trim(),
+    duration: parseInt(document.getElementById('svcDuration').value)||'',
+    price: document.getElementById('svcPrice').value !== '' ? parseInt(document.getElementById('svcPrice').value) : '' };
+  const items = settings.serviceItems || [];
+  const idx = items.findIndex(s => s.id === item.id);
+  if (idx >= 0) items[idx] = item; else items.push(item);
+  saveSettings({ serviceItems: items });
+  closeModal('serviceModal');
+};
+
+window.deleteServiceItem = (id) => {
+  saveSettings({ serviceItems: (settings.serviceItems||[]).filter(s => s.id !== id) });
+};
+
+// ─── UI SETUP ─────────────────────────────────────────────────────────────────
+function setupUI() {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('userPage').classList.add('active');
+  document.getElementById('tabNav').style.display = 'flex';
+  document.getElementById('navLogin').style.display = 'none';
+  document.getElementById('navUser').style.display = 'flex';
+  document.getElementById('navName').textContent = currentUser.displayName || currentUser.email;
+  document.getElementById('avatarPlaceholder').textContent = (currentUser.displayName||'U')[0].toUpperCase();
+  if (isAdmin) { document.getElementById('adminTab').style.display=''; document.getElementById('adminBadge').classList.remove('hidden'); }
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => switchPage(btn.dataset.page)));
+  document.querySelectorAll('.admin-tab').forEach(btn => btn.addEventListener('click', () => switchAdminPanel(btn.dataset.panel)));
   renderCalendar();
-  renderAdminToday();
 }
 
 function showLoginPage() {
-  document.getElementById("loginPage").style.display = "";
-  document.getElementById("userPage").classList.remove("active");
-  document.getElementById("adminPage").classList.remove("active");
-  document.getElementById("tabNav").style.display = "none";
-  document.getElementById("navLogin").style.display = "";
-  document.getElementById("navUser").style.display = "none";
+  document.getElementById('loginPage').style.display='';
+  document.getElementById('userPage').classList.remove('active');
+  document.getElementById('adminPage').classList.remove('active');
+  document.getElementById('tabNav').style.display='none';
+  document.getElementById('navLogin').style.display='';
+  document.getElementById('navUser').style.display='none';
 }
 
 function switchPage(page) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById(page + "Page").classList.add("active");
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.page === page));
-  if (page === "admin") { renderAdminToday(); filterBookings(); }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(page+'Page').classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.page===page));
+  if (page==='admin') { renderAdminToday(); filterBookings(); renderStatsTable(); }
 }
 
-// ─── CALENDAR ───────────────────────────────────────────────────────────────
-window.changeMonth = (d) => { calMonth += d; if (calMonth > 11) { calMonth=0; calYear++; } if (calMonth < 0) { calMonth=11; calYear--; } renderCalendar(); };
+function switchAdminPanel(panel) {
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+panel).classList.add('active');
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.toggle('active', b.dataset.panel===panel));
+  if (panel==='stats') renderStatsTable();
+  if (panel==='today') renderAdminToday();
+}
+
+// ─── CALENDAR ─────────────────────────────────────────────────────────────────
+window.changeMonth = d => { calMonth += d; if(calMonth>11){calMonth=0;calYear++;} if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
 
 function renderCalendar() {
-  const grid = document.getElementById("calendarGrid");
-  const title = document.getElementById("calMonthTitle");
+  const grid = document.getElementById('calendarGrid');
   const now = new Date(); now.setHours(0,0,0,0);
-  const maxDate = new Date(now); maxDate.setDate(now.getDate() + settings.bookingWindowWeeks * 7);
-
-  title.textContent = `${calYear} 年 ${calMonth+1} 月`;
-  const dayNames = ["日","一","二","三","四","五","六"];
-  grid.innerHTML = dayNames.map(d => `<div class="cal-day-name">${d}</div>`).join("");
-
+  const maxDate = new Date(now); maxDate.setDate(now.getDate() + settings.bookingWindowWeeks*7);
+  document.getElementById('calMonthTitle').textContent = `${calYear} 年 ${calMonth+1} 月`;
+  const dayNames = ['日','一','二','三','四','五','六'];
+  grid.innerHTML = dayNames.map(d => `<div class="cal-day-name">${d}</div>`).join('');
   const first = new Date(calYear, calMonth, 1).getDay();
-  for (let i=0; i<first; i++) grid.innerHTML += `<div class="cal-day empty"></div>`;
-
+  for(let i=0;i<first;i++) grid.innerHTML += `<div class="cal-day empty"></div>`;
   const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
-  for (let d=1; d<=daysInMonth; d++) {
+  for(let d=1;d<=daysInMonth;d++) {
     const dateObj = new Date(calYear, calMonth, d);
-    const dateStr = dateToString(dateObj);
-    const isPast = dateObj < now;
-    const isFuture = dateObj > maxDate;
-    const isToday = dateStr === dateToString(now);
-    const isSel = dateStr === selectedDate;
-    let cls = "cal-day";
-    if (isPast || isFuture) cls += " disabled";
-    if (isToday) cls += " today";
-    if (isSel) cls += " selected";
-    const onclick = (!isPast && !isFuture) ? `onclick="selectDate('${dateStr}')"` : "";
+    const dateStr = toDateStr(dateObj);
+    const isPast = dateObj < now, isFuture = dateObj > maxDate;
+    const isToday = dateStr === toDateStr(now), isSel = dateStr === selectedDate;
+    let cls = 'cal-day';
+    if(isPast||isFuture) cls+=' disabled'; if(isToday) cls+=' today'; if(isSel) cls+=' selected';
+    const onclick = (!isPast&&!isFuture) ? `onclick="selectDate('${dateStr}')"` : '';
     grid.innerHTML += `<div class="${cls}" ${onclick}>${d}</div>`;
   }
 }
 
-window.selectDate = async (dateStr) => {
-  selectedDate = dateStr;
-  selectedSlot = null;
+window.selectDate = async dateStr => {
+  selectedDate = dateStr; selectedSlot = null;
   renderCalendar();
-  document.getElementById("slotsCard").style.display = "";
-  document.getElementById("bookingFormCard").style.display = "none";
-  document.getElementById("selectedDateLabel").textContent = formatDate(dateStr);
+  document.getElementById('slotsCard').style.display='';
+  document.getElementById('bookingFormCard').style.display='none';
+  document.getElementById('selectedDateLabel').textContent = formatDate(dateStr);
   await loadDailyData(dateStr);
   renderSlots(dateStr);
 };
 
-// ─── DAILY DATA ─────────────────────────────────────────────────────────────
+// ─── DAILY DATA ────────────────────────────────────────────────────────────────
 async function loadDailyData(dateStr) {
-  const snap = await getDoc(doc(db, "dailySchedules", dateStr));
-  if (snap.exists()) {
-    dailyData[dateStr] = snap.data();
-  } else {
-    // 自動從範本建立
+  const snap = await getDoc(doc(db, 'dailySchedules', dateStr));
+  if (snap.exists()) { dailyData[dateStr] = snap.data(); }
+  else {
+    const cap = settings.defaultSlotCapacity || 1;
     const slots = {};
-    settings.slotTemplates.forEach(t => { slots[t] = { status: "available" }; });
-    dailyData[dateStr] = { isOpen: true, slots };
+    settings.slotTemplates.forEach(t => { slots[t] = { status:'available', capacity:cap, bookedCount:0 }; });
+    dailyData[dateStr] = { isOpen:true, slots };
   }
+}
+
+function getSlotRemaining(slot) {
+  const cap = slot.capacity || settings.defaultSlotCapacity || 1;
+  const booked = slot.bookedCount || 0;
+  return cap - booked;
 }
 
 function renderSlots(dateStr) {
   const data = dailyData[dateStr];
-  const grid = document.getElementById("slotsGrid");
-  const closedBadge = document.getElementById("dayClosedBadge");
+  const grid = document.getElementById('slotsGrid');
+  const closedBadge = document.getElementById('dayClosedBadge');
   if (!data || !data.isOpen) {
-    closedBadge.classList.remove("hidden");
+    closedBadge.classList.remove('hidden');
     grid.innerHTML = `<p class="text-sm" style="color:var(--gray-400);padding:.5rem 0">此日期不開放預約</p>`;
     return;
   }
-  closedBadge.classList.add("hidden");
-  const myBookingTimes = new Set(myBookings.filter(b=>b.date===dateStr && b.status==="confirmed").map(b=>b.time));
-  grid.innerHTML = Object.entries(data.slots).sort(([a],[b])=>a.localeCompare(b)).map(([time, slot]) => {
-    if (myBookingTimes.has(time)) return `<div class="slot mine" title="您已預約此時段">✓ ${time}</div>`;
-    if (slot.status === "booked") return `<div class="slot booked">${time}</div>`;
-    const sel = time === selectedSlot ? " selected" : "";
-    return `<div class="slot available${sel}" onclick="selectSlot('${time}')">${time}</div>`;
-  }).join("");
+  closedBadge.classList.add('hidden');
+  const myTimes = new Set(myBookings.filter(b=>b.date===dateStr&&b.status==='confirmed').map(b=>b.time));
+  grid.innerHTML = Object.entries(data.slots).sort(([a],[b])=>a.localeCompare(b)).map(([time,slot]) => {
+    const cap = slot.capacity || settings.defaultSlotCapacity || 1;
+    const remaining = getSlotRemaining(slot);
+    if (myTimes.has(time)) return `<div class="slot mine">✓ ${time}<div class="slot-cap">已預約</div></div>`;
+    if (remaining <= 0) return `<div class="slot booked">${time}<div class="slot-cap">已額滿</div></div>`;
+    const sel = time===selectedSlot?' selected':'';
+    const capLabel = cap > 1 ? `<div class="slot-cap">剩 ${remaining}/${cap}</div>` : '';
+    return `<div class="slot available${sel}" onclick="selectSlot('${time}')">${time}${capLabel}</div>`;
+  }).join('');
 }
 
-window.selectSlot = (time) => {
-  selectedSlot = time;
-  renderSlots(selectedDate);
-  const card = document.getElementById("bookingFormCard");
-  card.style.display = "";
-  document.getElementById("bookingSummary").textContent = `${formatDate(selectedDate)} ${time}`;
-  card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+window.selectSlot = time => {
+  selectedSlot = time; renderSlots(selectedDate);
+  const card = document.getElementById('bookingFormCard'); card.style.display='';
+  document.getElementById('bookingSummary').textContent = `${formatDate(selectedDate)} ${time}`;
+  card.scrollIntoView({ behavior:'smooth', block:'nearest' });
 };
+window.cancelBookingForm = () => { selectedSlot=null; document.getElementById('bookingFormCard').style.display='none'; renderSlots(selectedDate); };
 
-window.cancelBookingForm = () => {
-  selectedSlot = null;
-  document.getElementById("bookingFormCard").style.display = "none";
-  renderSlots(selectedDate);
-};
-
-// ─── BOOKINGS ────────────────────────────────────────────────────────────────
+// ─── BOOKINGS ──────────────────────────────────────────────────────────────────
 window.submitBooking = async () => {
-  const name = document.getElementById("bookingName").value.trim();
-  const phone = document.getElementById("bookingPhone").value.trim();
-  const service = document.getElementById("bookingService").value;
-  const note = document.getElementById("bookingNote").value.trim();
-  if (!name || !phone || !service) { toast("請填寫姓名、電話與服務項目", "error"); return; }
-  if (!selectedDate || !selectedSlot) { toast("請選擇日期與時段", "error"); return; }
+  const name=document.getElementById('bookingName').value.trim();
+  const phone=document.getElementById('bookingPhone').value.trim();
+  const service=document.getElementById('bookingService').value;
+  const note=document.getElementById('bookingNote').value.trim();
+  if (!name||!phone||!service) { toast('請填寫姓名、電話與服務項目','error'); return; }
+  if (!selectedDate||!selectedSlot) { toast('請選擇日期與時段','error'); return; }
+  const slot = dailyData[selectedDate]?.slots?.[selectedSlot];
+  if (!slot) { toast('時段不存在','error'); return; }
+  if (getSlotRemaining(slot) <= 0) { toast('此時段已額滿','error'); return; }
   try {
-    const bookingId = `${currentUser.uid}_${selectedDate}_${selectedSlot}`.replace(/:/g,"");
-    const data = {
-      userId: currentUser.uid, userName: name, userPhone: phone,
-      date: selectedDate, time: selectedSlot, service, note,
-      status: "confirmed", createdAt: serverTimestamp()
-    };
+    const bookingId = `${currentUser.uid}_${selectedDate}_${selectedSlot}_${Date.now()}`.replace(/:/g,'');
+    const newBookedCount = (slot.bookedCount||0) + 1;
+    const cap = slot.capacity || settings.defaultSlotCapacity || 1;
     const batch = writeBatch(db);
-    batch.set(doc(db, "bookings", bookingId), data);
-    batch.set(doc(db, "dailySchedules", selectedDate), {
-      slots: { [selectedSlot]: { status: "booked", bookingId } }
-    }, { merge: true });
+    batch.set(doc(db,'bookings',bookingId), {
+      userId:currentUser.uid, userName:name, userPhone:phone,
+      date:selectedDate, time:selectedSlot, service, note,
+      status:'confirmed', createdAt:serverTimestamp()
+    });
+    batch.set(doc(db,'dailySchedules',selectedDate), {
+      slots:{ [selectedSlot]:{ status: newBookedCount>=cap?'booked':'available', bookedCount:newBookedCount, capacity:cap } }
+    }, { merge:true });
     await batch.commit();
-    toast("預約成功！", "success");
-    document.getElementById("bookingFormCard").style.display = "none";
-    selectedSlot = null;
-    await loadDailyData(selectedDate);
-    renderSlots(selectedDate);
-    loadMyBookings();
-  } catch(e) { toast("預約失敗：" + e.message, "error"); }
+    toast('預約成功！','success');
+    document.getElementById('bookingFormCard').style.display='none'; selectedSlot=null;
+    await loadDailyData(selectedDate); renderSlots(selectedDate); loadMyBookings();
+  } catch(e) { toast('預約失敗：'+e.message,'error'); }
 };
 
 async function loadMyBookings() {
-  const q = query(collection(db,"bookings"), where("userId","==",currentUser.uid), where("status","==","confirmed"));
+  const q = query(collection(db,'bookings'), where('userId','==',currentUser.uid), where('status','==','confirmed'));
   const snap = await getDocs(q);
-  myBookings = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  myBookings.sort((a,b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time));
+  myBookings = snap.docs.map(d=>({id:d.id,...d.data()}));
+  myBookings.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
   renderMyBookings();
 }
 
 function renderMyBookings() {
-  const list = document.getElementById("myBookingsList");
-  if (!myBookings.length) {
-    list.innerHTML = `<p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--gray-400)">尚無預約紀錄</p>`;
-    return;
-  }
-  list.innerHTML = myBookings.map(b => `
+  const list = document.getElementById('myBookingsList');
+  if (!myBookings.length) { list.innerHTML=`<p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--gray-400)">尚無預約紀錄</p>`; return; }
+  list.innerHTML = myBookings.map(b=>`
     <div class="booking-item">
       <div class="booking-info">
         <div class="date">${formatDate(b.date)} ${b.time}</div>
-        <div class="service">${b.service}</div>
-        ${b.note ? `<div class="time">${b.note}</div>` : ""}
+        <span class="service-tag">${b.service}</span>
+        ${b.note?`<div class="time">${b.note}</div>`:''}
       </div>
       <div class="booking-actions">
         <button class="btn btn-outline btn-sm" onclick="rescheduleBooking('${b.id}')">改期</button>
         <button class="btn btn-danger btn-sm" onclick="askCancelBooking('${b.id}')">取消</button>
       </div>
-    </div>`).join("");
+    </div>`).join('');
 }
 
-window.askCancelBooking = (id) => {
-  document.getElementById("confirmModal").classList.remove("hidden");
-  document.getElementById("confirmCancelBtn").onclick = () => cancelBooking(id);
+window.askCancelBooking = id => {
+  document.getElementById('confirmModal').classList.remove('hidden');
+  document.getElementById('confirmCancelBtn').onclick = () => cancelBooking(id);
 };
 
 async function cancelBooking(id) {
-  const booking = myBookings.find(b => b.id === id) || allBookings.find(b => b.id === id);
+  const booking = [...myBookings,...allBookings].find(b=>b.id===id);
   if (!booking) return;
   try {
+    const dailySnap = await getDoc(doc(db,'dailySchedules',booking.date));
+    let slotData = dailySnap.exists() ? dailySnap.data().slots?.[booking.time] : null;
+    const newCount = Math.max(0, (slotData?.bookedCount||1)-1);
+    const cap = slotData?.capacity || settings.defaultSlotCapacity || 1;
     const batch = writeBatch(db);
-    batch.update(doc(db,"bookings",id), { status: "cancelled" });
-    batch.set(doc(db,"dailySchedules",booking.date), {
-      slots: { [booking.time]: { status: "available", bookingId: null } }
-    }, { merge: true });
+    batch.update(doc(db,'bookings',id), { status:'cancelled' });
+    batch.set(doc(db,'dailySchedules',booking.date), {
+      slots:{ [booking.time]:{ status:'available', bookedCount:newCount, capacity:cap } }
+    }, { merge:true });
     await batch.commit();
-    toast("已取消預約");
-    closeModal("confirmModal");
+    toast('已取消預約'); closeModal('confirmModal');
     loadMyBookings();
     if (isAdmin) loadAdminData();
-    if (selectedDate === booking.date) { await loadDailyData(selectedDate); renderSlots(selectedDate); }
-  } catch(e) { toast("取消失敗", "error"); }
+    if (selectedDate===booking.date) { await loadDailyData(selectedDate); renderSlots(selectedDate); }
+  } catch(e) { toast('取消失敗','error'); }
 }
 
-window.rescheduleBooking = async (id) => {
-  const b = myBookings.find(x => x.id === id);
-  if (!b) return;
-  await cancelBooking(id);
-  toast("請重新選擇時段");
-};
+window.rescheduleBooking = async id => { await cancelBooking(id); toast('請重新選擇時段'); };
 
-// ─── ADMIN ───────────────────────────────────────────────────────────────────
+// ─── ADMIN ─────────────────────────────────────────────────────────────────────
 async function loadAdminData() {
-  const snap = await getDocs(collection(db, "bookings"));
-  allBookings = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(b => b.status === "confirmed");
-  allBookings.sort((a,b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time));
-  renderAdminToday();
-  filterBookings();
+  const snap = await getDocs(collection(db,'bookings'));
+  allBookings = snap.docs.map(d=>({id:d.id,...d.data()})).filter(b=>b.status==='confirmed');
+  allBookings.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
+  renderAdminToday(); filterBookings(); renderStatsTable();
 }
 
-function renderAdminToday() {
-  const todayStr = dateToString(today);
-  document.getElementById("adminTodayLabel").textContent = formatDate(todayStr);
-  loadDailyData(todayStr).then(() => {
-    const data = dailyData[todayStr] || { isOpen: false, slots: {} };
-    document.getElementById("todayToggle").checked = !!data.isOpen;
-    const slots = Object.entries(data.slots || {}).sort(([a],[b])=>a.localeCompare(b));
-    const booked = allBookings.filter(b => b.date === todayStr);
-    const total = slots.length;
-    const bookedCount = booked.length;
-    document.getElementById("statTotal").textContent = total;
-    document.getElementById("statBooked").textContent = bookedCount;
-    document.getElementById("statAvail").textContent = total - bookedCount;
-    const list = document.getElementById("adminSlotList");
-    list.innerHTML = slots.map(([time, slot]) => {
-      const booking = booked.find(b => b.time === time);
-      if (booking) {
-        return `<div class="admin-slot-row booked-row">
-          <span class="slot-time">${time}</span>
-          <span class="slot-customer">${booking.userName} · ${booking.userPhone}<br><small>${booking.service}</small></span>
+async function renderAdminToday() {
+  const todayStr = toDateStr(today);
+  document.getElementById('adminTodayLabel').textContent = formatDate(todayStr);
+  await loadDailyData(todayStr);
+  const data = dailyData[todayStr] || { isOpen:false, slots:{} };
+  document.getElementById('todayToggle').checked = !!data.isOpen;
+  const slots = Object.entries(data.slots||{}).sort(([a],[b])=>a.localeCompare(b));
+  const todayBooked = allBookings.filter(b=>b.date===todayStr);
+  const totalCap = slots.reduce((sum,[,s])=>(s.capacity||settings.defaultSlotCapacity||1)+sum, 0);
+  document.getElementById('statTotal').textContent = totalCap || slots.length;
+  document.getElementById('statBooked').textContent = todayBooked.length;
+  document.getElementById('statAvail').textContent = Math.max(0,(totalCap||slots.length)-todayBooked.length);
+  const list = document.getElementById('adminSlotList');
+  list.innerHTML = slots.map(([time,slot]) => {
+    const cap = slot.capacity || settings.defaultSlotCapacity || 1;
+    const remaining = getSlotRemaining(slot);
+    const bookedHere = allBookings.filter(b=>b.date===todayStr&&b.time===time);
+    if (bookedHere.length) {
+      return bookedHere.map((booking,i) => `
+        <div class="admin-slot-row booked-row">
+          <span class="slot-time">${i===0?time:''}</span>
+          <span class="slot-customer">${booking.userName} · ${booking.userPhone}<br><small>${booking.service}${cap>1?` (${bookedHere.length}/${cap})`:''}</small></span>
           <div class="flex gap-2">
             <button class="btn btn-outline btn-sm" onclick="openEditBookModal('${booking.id}')">✏</button>
             <button class="btn btn-danger btn-sm" onclick="askCancelBooking('${booking.id}')">✕</button>
           </div>
-        </div>`;
-      }
-      return `<div class="admin-slot-row empty-row">
-        <span class="slot-time">${time}</span>
-        <span class="slot-customer" style="color:var(--gray-400)">空閒</span>
-        <button class="btn btn-outline btn-sm" onclick="openAdminBookModal('${todayStr}','${time}')">預約</button>
-      </div>`;
-    }).join("") || `<p class="text-sm" style="color:var(--gray-400);padding:.5rem 0">尚未設定今日時段</p>`;
-  });
+        </div>`).join('') +
+        (remaining > 0 ? `<div class="admin-slot-row empty-row" style="border-style:dashed">
+          <span class="slot-time"></span>
+          <span class="slot-customer" style="color:var(--gray-400)">剩餘 ${remaining} 個名額</span>
+          <button class="btn btn-outline btn-sm" onclick="openAdminBookModal('${todayStr}','${time}')">預約</button>
+        </div>` : '');
+    }
+    return `<div class="admin-slot-row empty-row">
+      <span class="slot-time">${time}</span>
+      <span class="slot-customer" style="color:var(--gray-400)">空閒${cap>1?` (0/${cap})`:''}</span>
+      <button class="btn btn-outline btn-sm" onclick="openAdminBookModal('${todayStr}','${time}')">預約</button>
+    </div>`;
+  }).join('') || `<p class="text-sm" style="color:var(--gray-400);padding:.5rem 0">尚未設定今日時段</p>`;
 }
 
 window.toggleTodayOpen = async () => {
-  const todayStr = dateToString(today);
-  const isOpen = document.getElementById("todayToggle").checked;
-  await setDoc(doc(db,"dailySchedules",todayStr), { isOpen }, { merge: true });
-  toast(isOpen ? "已開放今日預約" : "已關閉今日預約");
+  const isOpen = document.getElementById('todayToggle').checked;
+  await setDoc(doc(db,'dailySchedules',toDateStr(today)), { isOpen }, { merge:true });
+  toast(isOpen?'已開放今日預約':'已關閉今日預約');
 };
 
 window.filterBookings = () => {
-  const dateFilter = document.getElementById("filterDate").value;
-  const keyword = document.getElementById("filterKeyword").value.trim().toLowerCase();
+  const dateFilter = document.getElementById('filterDate').value;
+  const keyword = document.getElementById('filterKeyword').value.trim().toLowerCase();
   let list = allBookings;
-  if (dateFilter) list = list.filter(b => b.date === dateFilter);
-  if (keyword) list = list.filter(b =>
-    b.userName?.toLowerCase().includes(keyword) ||
-    b.userPhone?.includes(keyword)
-  );
-  const el = document.getElementById("adminBookingList");
-  el.innerHTML = list.length ? list.map(b => `
+  if (dateFilter) list = list.filter(b=>b.date===dateFilter);
+  if (keyword) list = list.filter(b=>b.userName?.toLowerCase().includes(keyword)||b.userPhone?.includes(keyword));
+  const el = document.getElementById('adminBookingList');
+  el.innerHTML = list.length ? list.map(b=>`
     <div class="booking-item">
       <div class="booking-info">
         <div class="date">${formatDate(b.date)} ${b.time}</div>
         <div class="time">${b.userName} · ${b.userPhone}</div>
-        <div class="service">${b.service}</div>
+        <span class="service-tag">${b.service}</span>
       </div>
       <div class="booking-actions">
         <button class="btn btn-outline btn-sm" onclick="openEditBookModal('${b.id}')">✏</button>
         <button class="btn btn-danger btn-sm" onclick="askCancelBooking('${b.id}')">✕</button>
       </div>
-    </div>`).join("")
+    </div>`).join('')
     : `<p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--gray-400)">無符合條件的預約</p>`;
 };
 
-// ─── ADMIN MODAL ─────────────────────────────────────────────────────────────
+// ─── STATS ─────────────────────────────────────────────────────────────────────
+window.switchStatsPeriod = btn => {
+  document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); currentStatsPeriod = btn.dataset.period;
+  renderStatsTable();
+};
+
+function renderStatsTable() {
+  const grouped = {};
+  allBookings.forEach(b => {
+    let key;
+    if (currentStatsPeriod==='daily') key = b.date;
+    else if (currentStatsPeriod==='weekly') { const d=new Date(b.date); key=`${d.getFullYear()}-W${getWeekNum(d)}`; }
+    else key = b.date.slice(0,7);
+    grouped[key] = (grouped[key]||0)+1;
+  });
+  const rows = Object.entries(grouped).sort(([a],[b])=>b.localeCompare(a));
+  const max = Math.max(...rows.map(([,v])=>v), 1);
+  const header = { daily:'日期', weekly:'週次', monthly:'月份' }[currentStatsPeriod];
+  const wrap = document.getElementById('statsTableWrap');
+  if (!rows.length) { wrap.innerHTML=`<p class="text-sm" style="text-align:center;padding:2rem 0;color:var(--gray-400)">尚無預約紀錄</p>`; return; }
+  wrap.innerHTML = `<table class="stats-table">
+    <thead><tr><th>${header}</th><th>預約數</th><th style="width:50%">分佈</th></tr></thead>
+    <tbody>${rows.map(([k,v])=>`<tr>
+      <td>${k}</td><td><strong>${v}</strong></td>
+      <td><div class="stats-bar"><div class="stats-bar-fill" style="width:${(v/max*100).toFixed(0)}%"></div></div></td>
+    </tr>`).join('')}</tbody>
+    <tfoot><tr><td><strong>合計</strong></td><td><strong>${rows.reduce((s,[,v])=>s+v,0)}</strong></td><td></td></tr></tfoot>
+  </table>`;
+}
+
+window.downloadCSV = () => {
+  const header = '日期,時段,姓名,電話,服務項目,備註';
+  const rows = allBookings.map(b=>`${b.date},${b.time},"${b.userName}","${b.userPhone}","${b.service}","${b.note||''}"`);
+  const csv = '﻿' + [header,...rows].join('\n');
+  const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `預約紀錄_${toDateStr(new Date())}.csv`; a.click();
+};
+
+function getWeekNum(d) {
+  const s = new Date(d.getFullYear(), 0, 1);
+  return Math.ceil(((d-s)/86400000 + s.getDay()+1)/7);
+}
+
+// ─── CAPACITY MODAL ────────────────────────────────────────────────────────────
+window.openSetCapacityModal = async () => {
+  const todayStr = toDateStr(today);
+  await loadDailyData(todayStr);
+  const data = dailyData[todayStr];
+  const slots = Object.entries(data?.slots||{}).sort(([a],[b])=>a.localeCompare(b));
+  document.getElementById('capacitySlotList').innerHTML = slots.map(([time,slot])=>`
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem">
+      <span style="min-width:55px;font-weight:600">${time}</span>
+      <input type="number" min="1" max="99" value="${slot.capacity||settings.defaultSlotCapacity||1}"
+        id="cap_${time.replace(':','')}" style="width:80px" placeholder="${settings.defaultSlotCapacity||1}">
+      <span class="text-sm">人</span>
+    </div>`).join('') || '<p class="text-sm" style="color:var(--gray-400)">今日尚無時段</p>';
+  document.getElementById('capacityModal').classList.remove('hidden');
+};
+
+window.saveCapacities = async () => {
+  const todayStr = toDateStr(today);
+  const data = dailyData[todayStr];
+  if (!data) return;
+  const updates = {};
+  Object.entries(data.slots||{}).forEach(([time,slot])=>{
+    const el = document.getElementById('cap_'+time.replace(':',''));
+    if (el) { const cap = parseInt(el.value)||1; updates[time] = {...slot, capacity:cap}; }
+  });
+  await setDoc(doc(db,'dailySchedules',todayStr), { slots:updates }, { merge:true });
+  dailyData[todayStr] = { ...data, slots:updates };
+  toast('時段人數已更新','success');
+  closeModal('capacityModal');
+  renderAdminToday();
+};
+
+// ─── TEMPLATE MODAL ────────────────────────────────────────────────────────────
+window.applyTemplateModal = () => {
+  document.getElementById('applyTemplateDate').value = toDateStr(today);
+  document.getElementById('templatePreview').textContent = settings.slotTemplates.join('、');
+  document.getElementById('applyTemplateModal').classList.remove('hidden');
+};
+window.applyTemplateToDay = async () => {
+  const dateStr = document.getElementById('applyTemplateDate').value;
+  if (!dateStr) { toast('請選擇日期','error'); return; }
+  const cap = settings.defaultSlotCapacity || 1;
+  const slots = {};
+  settings.slotTemplates.forEach(t => { slots[t]={ status:'available', capacity:cap, bookedCount:0 }; });
+  await setDoc(doc(db,'dailySchedules',dateStr), { isOpen:true, slots }, { merge:false });
+  toast(`已套用範本到 ${dateStr}`,'success');
+  closeModal('applyTemplateModal');
+  if (dateStr === toDateStr(today)) renderAdminToday();
+};
+
+// ─── ADMIN BOOK MODAL ──────────────────────────────────────────────────────────
 window.openAdminBookModal = async (dateStr, slotTime) => {
   editingBookingId = null;
-  document.getElementById("adminModalTitle").textContent = "新增預約";
-  document.getElementById("adminBookDate").value = dateStr || dateToString(today);
-  document.getElementById("adminBookName").value = "";
-  document.getElementById("adminBookPhone").value = "";
-  document.getElementById("adminBookNote").value = "";
-  await loadAdminSlots(dateStr || dateToString(today));
-  if (slotTime) document.getElementById("adminBookSlot").value = slotTime;
-  document.getElementById("adminBookModal").classList.remove("hidden");
+  document.getElementById('adminModalTitle').textContent = '新增預約';
+  document.getElementById('adminBookDate').value = dateStr || toDateStr(today);
+  document.getElementById('adminBookName').value = '';
+  document.getElementById('adminBookPhone').value = '';
+  document.getElementById('adminBookNote').value = '';
+  await loadAdminSlots(dateStr || toDateStr(today));
+  if (slotTime) document.getElementById('adminBookSlot').value = slotTime;
+  document.getElementById('adminBookModal').classList.remove('hidden');
 };
 
-window.openEditBookModal = async (id) => {
+window.openEditBookModal = async id => {
   editingBookingId = id;
-  const b = allBookings.find(x => x.id === id);
-  if (!b) return;
-  document.getElementById("adminModalTitle").textContent = "修改預約";
-  document.getElementById("adminBookDate").value = b.date;
-  document.getElementById("adminBookName").value = b.userName;
-  document.getElementById("adminBookPhone").value = b.userPhone;
-  document.getElementById("adminBookNote").value = b.note || "";
+  const b = allBookings.find(x=>x.id===id); if (!b) return;
+  document.getElementById('adminModalTitle').textContent = '修改預約';
+  document.getElementById('adminBookDate').value = b.date;
+  document.getElementById('adminBookName').value = b.userName;
+  document.getElementById('adminBookPhone').value = b.userPhone;
+  document.getElementById('adminBookNote').value = b.note||'';
   await loadAdminSlots(b.date, id);
-  document.getElementById("adminBookSlot").value = b.time;
-  document.getElementById("adminBookService").value = b.service;
-  document.getElementById("adminBookModal").classList.remove("hidden");
+  document.getElementById('adminBookSlot').value = b.time;
+  document.getElementById('adminBookService').value = b.service;
+  document.getElementById('adminBookModal').classList.remove('hidden');
 };
 
-document.getElementById("adminBookDate").addEventListener("change", async (e) => {
+document.getElementById('adminBookDate').addEventListener('change', async e => {
   await loadAdminSlots(e.target.value, editingBookingId);
 });
 
-async function loadAdminSlots(dateStr, excludeBookingId) {
+async function loadAdminSlots(dateStr, excludeId) {
   await loadDailyData(dateStr);
   const data = dailyData[dateStr];
-  const sel = document.getElementById("adminBookSlot");
-  sel.innerHTML = "";
-  if (!data) { sel.innerHTML = "<option>無時段</option>"; return; }
-  Object.entries(data.slots).sort(([a],[b])=>a.localeCompare(b)).forEach(([time, slot]) => {
-    const b = allBookings.find(x => x.time === time && x.date === dateStr && x.id !== excludeBookingId);
-    const disabled = slot.status === "booked" && !b?.id === excludeBookingId ? "" : "";
-    sel.innerHTML += `<option value="${time}" ${b ? "disabled" : ""}>${time}${b ? " (已預約)" : ""}</option>`;
+  const sel = document.getElementById('adminBookSlot'); sel.innerHTML='';
+  if (!data) { sel.innerHTML='<option>無時段</option>'; return; }
+  Object.entries(data.slots).sort(([a],[b])=>a.localeCompare(b)).forEach(([time,slot])=>{
+    const remaining = getSlotRemaining(slot);
+    const disabled = remaining<=0 && !allBookings.find(b=>b.id===excludeId&&b.time===time);
+    sel.innerHTML += `<option value="${time}" ${disabled?'disabled':''}>${time} (剩${remaining}人)${disabled?' ✕':''}</option>`;
   });
 }
 
 window.confirmAdminBook = async () => {
-  const date = document.getElementById("adminBookDate").value;
-  const time = document.getElementById("adminBookSlot").value;
-  const name = document.getElementById("adminBookName").value.trim();
-  const phone = document.getElementById("adminBookPhone").value.trim();
-  const service = document.getElementById("adminBookService").value;
-  const note = document.getElementById("adminBookNote").value.trim();
-  if (!date||!time||!name||!phone||!service) { toast("請填寫所有必要欄位","error"); return; }
+  const date=document.getElementById('adminBookDate').value;
+  const time=document.getElementById('adminBookSlot').value;
+  const name=document.getElementById('adminBookName').value.trim();
+  const phone=document.getElementById('adminBookPhone').value.trim();
+  const service=document.getElementById('adminBookService').value;
+  const note=document.getElementById('adminBookNote').value.trim();
+  if (!date||!time||!name||!phone||!service) { toast('請填寫所有必要欄位','error'); return; }
   const batch = writeBatch(db);
   if (editingBookingId) {
-    const old = allBookings.find(b => b.id === editingBookingId);
-    if (old && (old.date !== date || old.time !== time)) {
-      batch.set(doc(db,"dailySchedules",old.date),{slots:{[old.time]:{status:"available",bookingId:null}}},{merge:true});
+    const old = allBookings.find(b=>b.id===editingBookingId);
+    if (old && (old.date!==date||old.time!==time)) {
+      const oldSnap = await getDoc(doc(db,'dailySchedules',old.date));
+      const oldSlot = oldSnap.data()?.slots?.[old.time]||{};
+      batch.set(doc(db,'dailySchedules',old.date),{slots:{[old.time]:{...oldSlot, bookedCount:Math.max(0,(oldSlot.bookedCount||1)-1), status:'available'}}},{merge:true});
     }
-    batch.update(doc(db,"bookings",editingBookingId), { date,time,userName:name,userPhone:phone,service,note });
-    batch.set(doc(db,"dailySchedules",date),{slots:{[time]:{status:"booked",bookingId:editingBookingId}}},{merge:true});
+    batch.update(doc(db,'bookings',editingBookingId),{date,time,userName:name,userPhone:phone,service,note});
+    const slotSnap = await getDoc(doc(db,'dailySchedules',date));
+    const s = slotSnap.data()?.slots?.[time]||{};
+    const cap = s.capacity||settings.defaultSlotCapacity||1;
+    const newCount = (s.bookedCount||0)+(old?.time===time&&old?.date===date?0:1);
+    batch.set(doc(db,'dailySchedules',date),{slots:{[time]:{...s,bookedCount:newCount,status:newCount>=cap?'booked':'available'}}},{merge:true});
   } else {
-    const bookingId = `admin_${date}_${time}_${Date.now()}`.replace(/:/g,"");
-    batch.set(doc(db,"bookings",bookingId), {
-      userId:"admin", userName:name, userPhone:phone, date, time, service, note,
-      status:"confirmed", createdAt:serverTimestamp()
-    });
-    batch.set(doc(db,"dailySchedules",date),{slots:{[time]:{status:"booked",bookingId}}},{merge:true});
+    const bookingId = `admin_${date}_${time}_${Date.now()}`.replace(/:/g,'');
+    batch.set(doc(db,'bookings',bookingId),{userId:'admin',userName:name,userPhone:phone,date,time,service,note,status:'confirmed',createdAt:serverTimestamp()});
+    const slotSnap = await getDoc(doc(db,'dailySchedules',date));
+    const s = slotSnap.data()?.slots?.[time]||{};
+    const cap = s.capacity||settings.defaultSlotCapacity||1;
+    const newCount=(s.bookedCount||0)+1;
+    batch.set(doc(db,'dailySchedules',date),{slots:{[time]:{...s,bookedCount:newCount,status:newCount>=cap?'booked':'available'}}},{merge:true});
   }
   await batch.commit();
-  toast("預約已儲存","success");
-  closeModal("adminBookModal");
-  loadAdminData();
+  toast('預約已儲存','success'); closeModal('adminBookModal'); loadAdminData();
 };
 
-// ─── UTILS ───────────────────────────────────────────────────────────────────
-window.closeModal = (id) => document.getElementById(id).classList.add("hidden");
+// ─── UTILS ─────────────────────────────────────────────────────────────────────
+window.closeModal = id => document.getElementById(id).classList.add('hidden');
+document.querySelectorAll('.modal-overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.add('hidden');}));
 
-function dateToString(d) {
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+function toDateStr(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function formatDate(s) { const [y,m,d]=s.split('-'); const days=['日','一','二','三','四','五','六']; return `${m}/${d} (${days[new Date(s).getDay()]})`; }
+function toast(msg,type='') {
+  const el=document.createElement('div'); el.className=`toast ${type}`; el.textContent=msg;
+  document.getElementById('toastContainer').appendChild(el); setTimeout(()=>el.remove(),3000);
 }
-function formatDate(s) {
-  const [y,m,d] = s.split("-");
-  const days = ["日","一","二","三","四","五","六"];
-  const day = days[new Date(s).getDay()];
-  return `${m}/${d} (${day})`;
-}
-
-function toast(msg, type="") {
-  const el = document.createElement("div");
-  el.className = `toast ${type}`;
-  el.textContent = msg;
-  document.getElementById("toastContainer").appendChild(el);
-  setTimeout(() => el.remove(), 3000);
-}
-
-// close modal on overlay click
-document.querySelectorAll(".modal-overlay").forEach(el => {
-  el.addEventListener("click", e => { if (e.target === el) el.classList.add("hidden"); });
-});
 </script>
 </body>
 </html>
