@@ -807,9 +807,11 @@ window.selectTheme = k => { shopSettings.colorTheme=k; applyTheme(k); renderThem
 
 // slot templates
 function renderWeekdayChecks() {
+  const el = document.getElementById('weekdayChecks');
+  if (!el) return;
   const names = ['日','一','二','三','四','五','六'];
-  const closed = shopSettings.closedWeekdays || [];
-  document.getElementById('weekdayChecks').innerHTML = names.map((n,i)=>
+  const closed = (shopSettings && shopSettings.closedWeekdays) || [];
+  el.innerHTML = names.map((n,i)=>
     `<button class="weekday-btn ${closed.includes(i)?'closed':''}" onclick="toggleWeekday(${i})" title="每週${n}">${n}</button>`
   ).join('');
 }
