@@ -478,11 +478,12 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
         <div class="form-group"><label>導覽列名稱</label><div class="flex gap-2"><input type="text" id="stSvcName"><button class="btn btn-outline btn-sm" onclick="saveField('serviceName','stSvcName')">儲存</button></div></div>
         <div class="form-group"><label>可預約區間</label><div class="flex gap-2"><select id="stBookWin" style="flex:1"><option value="1">1週</option><option value="2">2週</option><option value="3">3週</option><option value="4">4週</option></select><button class="btn btn-outline btn-sm" onclick="saveField('bookingWindowWeeks','stBookWin',true)">儲存</button></div></div>
         <div class="form-group"><label>每時段預設人數</label><div class="flex gap-2"><input type="number" id="stDefCap" min="1" max="99" style="max-width:100px"><button class="btn btn-outline btn-sm" onclick="saveField('defaultSlotCapacity','stDefCap',true)">儲存</button></div></div>
-        <div class="form-group">
-          <label>固定公休日（每週）</label>
-          <div class="weekday-checks" id="weekdayChecks" style="margin-top:.4rem"></div>
-          <button class="btn btn-outline btn-sm" style="margin-top:.6rem" onclick="saveClosedWeekdays()">儲存公休設定</button>
-        </div>
+
+      </div>
+      <div class="settings-section">
+        <h4>🚫 固定公休日（每週）</h4>
+        <div class="weekday-checks" id="weekdayChecks"></div>
+        <button class="btn btn-outline btn-sm" style="margin-top:.6rem" onclick="saveClosedWeekdays()">儲存公休設定</button>
       </div>
       <div class="settings-section">
         <h4>⏰ 時段範本</h4>
