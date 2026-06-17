@@ -971,7 +971,7 @@ window.submitBooking = async () => {
     const newCnt=(slot.bookedCount||0)+1, cap=slot.capacity||shopSettings.defaultSlotCapacity||1;
     const batch=writeBatch(db);
     batch.set(doc(db,'shops',shopId,'bookings',bid),{userId:CU.uid,userName:name,userPhone:phone,date:selectedDate,time:selectedSlot,service,note,status:'confirmed',createdAt:serverTimestamp()});
-    batch.set(doc(db,'shops',shopId,'dailySchedules',selectedDate),{slots:{[selectedSlot]:{status:newCnt>=cap?'booked':'available',bookedCount:newCnt,capacity:cap}}},{merge:true});
+    batch.set(doc(db,'shops',shopId,'dailySchedules',selectedDate),{isOpen:true,slots:{[selectedSlot]:{status:newCnt>=cap?'booked':'available',bookedCount:newCnt,capacity:cap}}},{merge:true});
     await batch.commit();
     toast('預約成功！','success');
     document.getElementById('bookingFormCard').classList.add('hidden'); selectedSlot=null;
