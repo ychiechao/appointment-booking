@@ -916,9 +916,16 @@ window.selectDate = async dateStr => {
 // ── DAILY DATA ────────────────────────────────────────────────────────────────
 async function loadDailyData(shopId, dateStr) {
   const snap = await getDoc(doc(db,'shops',shopId,'dailySchedules',dateStr));
-  if (snap.exists()) { dailyCache[dateStr]=snap.data(); }
-  else {
-    const cap = shopSettings.defaultSlotCapacity||1;
+  const cap = shopSettings.defaultSlotCapacity||1;
+  if (snap.exists()) {
+    const data = snap.data();
+    // 補上範本中有但 Firestore 沒有的時段（避免只顯示已預約那格）
+    const slots = {...(data.slots||{})};
+    shopSettings.slotTemplates.forEach(t=>{
+      if (!slots[t]) slots[t]={status:'available',capacity:cap,bookedCount:0};
+    });
+    dailyCache[dateStr] = {...data, slots};
+  } else {
     const slots={};
     shopSettings.slotTemplates.forEach(t=>{slots[t]={status:'available',capacity:cap,bookedCount:0};});
     dailyCache[dateStr]={isOpen:true,slots};
