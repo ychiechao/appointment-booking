@@ -1200,14 +1200,14 @@ async function loadUserDashboard() {
   document.getElementById('udName').textContent = CU.displayName || CU.email;
 
   // 跨店查詢所有預約
-  const q = query(collectionGroup(db,'bookings'), where('userId','==',CU.uid), where('status','==','confirmed'));
+  const q = query(collectionGroup(db,'bookings'), where('userId','==',CU.uid));
   const snap = await getDocs(q);
   const bookings = snap.docs.map(d=>{
     const data = d.data();
-    // shopId 從路徑 shops/{shopId}/bookings/{id} 取得
     const shopId = data.shopId || d.ref.parent.parent.id;
     return {id:d.id, ...data, shopId};
-  }).sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
+  }).filter(b=>b.status==='confirmed')
+    .sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
 
   const todayStr = toDStr(today);
 
