@@ -161,6 +161,11 @@ textarea{resize:vertical;min-height:70px}
 .chip-list{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
 .chip{background:var(--primary-light);color:var(--primary);padding:.25rem .6rem;border-radius:9999px;font-size:.82rem;font-weight:500;display:flex;align-items:center;gap:.3rem}
 .chip-remove{cursor:pointer;font-size:1rem;line-height:1}
+.weekday-checks{display:flex;gap:.4rem;flex-wrap:wrap}
+.weekday-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--g200);background:white;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--g600);transition:all .15s}
+.weekday-btn.closed{background:var(--danger);border-color:var(--danger);color:white}
+.cal-day.weekday-off{color:var(--g400);cursor:not-allowed;position:relative}
+.cal-day.weekday-off::after{content:'休';font-size:.55rem;display:block;color:var(--danger);line-height:1}
 .theme-swatches{display:flex;gap:.6rem;margin-top:.5rem;flex-wrap:wrap}
 .theme-swatch{width:36px;height:36px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s;position:relative}
 .theme-swatch.active{border-color:var(--g800)}
@@ -478,6 +483,11 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
         <h4>⏰ 時段範本</h4>
         <div class="flex gap-2"><input type="time" id="newSlotTime"><button class="btn btn-outline btn-sm" onclick="addSlotTpl()">新增</button></div>
         <div class="chip-list" id="slotTplList"></div>
+        <div style="margin-top:1rem">
+          <label style="font-size:.85rem;font-weight:500;color:var(--g600);display:block;margin-bottom:.4rem">🚫 固定公休日（每週）</label>
+          <div class="weekday-checks" id="weekdayChecks"></div>
+          <button class="btn btn-outline btn-sm" style="margin-top:.5rem" onclick="saveClosedWeekdays()">儲存公休設定</button>
+        </div>
       </div>
       <div class="settings-section">
         <h4>📢 公告</h4>
@@ -773,6 +783,7 @@ function renderSettingsForm() {
   document.getElementById('stBookWin').value = shopSettings.bookingWindowWeeks||2;
   document.getElementById('stDefCap').value = shopSettings.defaultSlotCapacity||1;
   document.getElementById('stAnnouncement').value = shopSettings.announcement||'';
+  renderWeekdayChecks();
   document.getElementById('defCapHint').textContent = shopSettings.defaultSlotCapacity||1;
   if (shopSettings.bannerUrl) {
     document.getElementById('bannerPreviewImg').src = shopSettings.bannerUrl;
@@ -795,6 +806,25 @@ function renderThemeSwatches() {
 window.selectTheme = k => { shopSettings.colorTheme=k; applyTheme(k); renderThemeSwatches(); };
 
 // slot templates
+function renderWeekdayChecks() {
+  const names = ['日','一','二','三','四','五','六'];
+  const closed = shopSettings.closedWeekdays || [];
+  document.getElementById('weekdayChecks').innerHTML = names.map((n,i)=>
+    `<button class="weekday-btn ${closed.includes(i)?'closed':''}" onclick="toggleWeekday(${i})" title="每週${n}">${n}</button>`
+  ).join('');
+}
+window.toggleWeekday = (day) => {
+  const closed = [...(shopSettings.closedWeekdays||[])];
+  const idx = closed.indexOf(day);
+  if(idx>=0) closed.splice(idx,1); else closed.push(day);
+  shopSettings.closedWeekdays = closed;
+  renderWeekdayChecks();
+};
+window.saveClosedWeekdays = () => {
+  saveShopSettings({ closedWeekdays: shopSettings.closedWeekdays||[] });
+  renderCalendar();
+};
+
 window.addSlotTpl = () => {
   const v = document.getElementById('newSlotTime').value;
   if (!v || shopSettings.slotTemplates.includes(v)) return;
@@ -908,11 +938,13 @@ function renderCalendar() {
   for(let d=1;d<=dim;d++){
     const dateObj=new Date(calYear,calMonth,d), dateStr=toDStr(dateObj);
     const isPast=dateObj<now, isFuture=dateObj>maxDate;
+    const closedWD=(shopSettings.closedWeekdays||[]).includes(dateObj.getDay());
     let cls='cal-day';
     if(isPast||isFuture) cls+=' disabled';
+    else if(closedWD) cls+=' weekday-off';
     if(toDStr(now)===dateStr) cls+=' today';
     if(dateStr===selectedDate) cls+=' selected';
-    const oc=(!isPast&&!isFuture)?`onclick="selectDate('${dateStr}')"`:'';
+    const oc=(!isPast&&!isFuture&&!closedWD)?`onclick="selectDate('${dateStr}')"`:'';
     grid.innerHTML+=`<div class="${cls}" ${oc}>${d}</div>`;
   }
 }
@@ -954,6 +986,10 @@ function renderSlots(dateStr) {
   const data=dailyCache[dateStr];
   const grid=document.getElementById('slotsGrid');
   const cb=document.getElementById('dayClosedBadge');
+  const dateObj = new Date(dateStr);
+  const isWeekdayOff = (shopSettings.closedWeekdays||[]).includes(dateObj.getDay());
+  if (isWeekdayOff){ cb.classList.remove('hidden'); cb.textContent='公休日'; grid.innerHTML=`<p class="text-sm" style="color:var(--g400)">本日為固定公休日</p>`; return; }
+  cb.textContent='休息日';
   if (!data || data.isOpen === false){ cb.classList.remove('hidden'); grid.innerHTML=`<p class="text-sm" style="color:var(--g400)">此日期不開放</p>`; return; }
   cb.classList.add('hidden');
   const myTimes=new Set(myBookings.filter(b=>b.date===dateStr&&b.status==='confirmed').map(b=>b.time));
