@@ -1191,9 +1191,11 @@ function renderAdminCal() {
     const cnt = counts[dateStr] || 0;
     const isToday = dateStr === todayStr;
     const isSel = dateStr === adminFilterDate;
+    const isClosedWD = (shopSettings.closedWeekdays||[]).includes(new Date(dateStr).getDay());
     let cls = 'cal-day';
     if(isToday) cls += ' today';
     if(isSel) cls += ' selected';
+    if(isClosedWD) cls += ' weekday-off';
     const dot = cnt > 0
       ? `<div style="width:6px;height:6px;border-radius:50%;background:${isSel?'white':'var(--primary)'};margin:2px auto 0"></div>`
       : '';
