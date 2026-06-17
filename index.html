@@ -933,7 +933,7 @@ function renderSlots(dateStr) {
   const data=dailyCache[dateStr];
   const grid=document.getElementById('slotsGrid');
   const cb=document.getElementById('dayClosedBadge');
-  if (!data||!data.isOpen){ cb.classList.remove('hidden'); grid.innerHTML=`<p class="text-sm" style="color:var(--g400)">此日期不開放</p>`; return; }
+  if (!data || data.isOpen === false){ cb.classList.remove('hidden'); grid.innerHTML=`<p class="text-sm" style="color:var(--g400)">此日期不開放</p>`; return; }
   cb.classList.add('hidden');
   const myTimes=new Set(myBookings.filter(b=>b.date===dateStr&&b.status==='confirmed').map(b=>b.time));
   grid.innerHTML=Object.entries(data.slots).sort(([a],[b])=>a.localeCompare(b)).map(([time,slot])=>{
