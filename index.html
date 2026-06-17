@@ -939,6 +939,7 @@ function renderSlots(dateStr) {
   grid.innerHTML=Object.entries(data.slots).sort(([a],[b])=>a.localeCompare(b)).map(([time,slot])=>{
     const cap=slot.capacity||shopSettings.defaultSlotCapacity||1, rem=getRemaining(slot);
     if(myTimes.has(time)) return `<div class="slot mine">✓ ${time}<div class="slot-cap">已預約</div></div>`;
+    if(slot.adminClosed) return `<div class="slot booked">${time}<div class="slot-cap">已關閉</div></div>`;
     if(rem<=0) return `<div class="slot booked">${time}<div class="slot-cap">額滿</div></div>`;
     const sel=time===selectedSlot?' selected':'';
     const capLbl=cap>1?`<div class="slot-cap">剩${rem}/${cap}</div>`:'';
@@ -1050,6 +1051,14 @@ async function renderAdminToday() {
   list.innerHTML=slots.map(([time,slot])=>{
     const cap=slot.capacity||shopSettings.defaultSlotCapacity||1, rem=getRemaining(slot);
     const here=allBookings.filter(b=>b.date===todayStr&&b.time===time);
+    const isClosed=slot.adminClosed===true;
+    const closeBtn=isClosed
+      ?`<button class="btn btn-success btn-sm" onclick="toggleSlotClosed('${todayStr}','${time}',false)">開放</button>`
+      :`<button class="btn btn-outline btn-sm" onclick="toggleSlotClosed('${todayStr}','${time}',true)" title="關閉此時段">🚫</button>`;
+    if(isClosed) return `<div class="admin-slot-row" style="background:#FEF2F2;border-color:#FECACA;opacity:.75">
+      <span class="slot-time">${time}</span>
+      <span class="slot-customer" style="color:var(--danger);font-size:.82rem">已關閉（不開放預約）</span>
+      <div class="flex gap-2">${closeBtn}</div></div>`;
     if(here.length) return here.map((bk,i)=>`
       <div class="admin-slot-row booked-row">
         <span class="slot-time">${i===0?time:''}</span>
@@ -1057,6 +1066,7 @@ async function renderAdminToday() {
         <div class="flex gap-2">
           <button class="btn btn-outline btn-sm" onclick="openEditBookModal('${bk.id}')">✏</button>
           <button class="btn btn-danger btn-sm" onclick="askCancel('${bk.id}')">✕</button>
+          ${i===0?closeBtn:''}
         </div>
       </div>`).join('')+(rem>0?`<div class="admin-slot-row empty-row" style="border-style:dashed">
         <span class="slot-time"></span><span class="slot-customer" style="color:var(--g400)">剩 ${rem} 名額</span>
@@ -1064,7 +1074,10 @@ async function renderAdminToday() {
     return `<div class="admin-slot-row empty-row">
       <span class="slot-time">${time}</span>
       <span class="slot-customer" style="color:var(--g400)">空閒${cap>1?` (0/${cap})`:''}</span>
-      <button class="btn btn-outline btn-sm" onclick="openAdminBookModal('${todayStr}','${time}')">預約</button></div>`;
+      <div class="flex gap-2">
+        <button class="btn btn-outline btn-sm" onclick="openAdminBookModal('${todayStr}','${time}')">預約</button>
+        ${closeBtn}
+      </div></div>`;
   }).join('')||`<p class="text-sm" style="color:var(--g400);padding:.5rem 0">尚未設定今日時段</p>`;
   populateSvcSelects();
 }
@@ -1073,6 +1086,16 @@ window.toggleTodayOpen = async () => {
   const isOpen=document.getElementById('todayToggle').checked;
   await setDoc(doc(db,'shops',myShopId,'dailySchedules',toDStr(today)),{isOpen},{merge:true});
   toast(isOpen?'已開放今日預約':'已關閉今日預約');
+};
+
+window.toggleSlotClosed = async (dateStr, time, close) => {
+  const data = dailyCache[dateStr];
+  const slot = data?.slots?.[time] || {};
+  await setDoc(doc(db,'shops',myShopId,'dailySchedules',dateStr),
+    {slots:{[time]:{...slot, adminClosed: close}}},{merge:true});
+  if(dailyCache[dateStr]?.slots?.[time]) dailyCache[dateStr].slots[time].adminClosed = close;
+  toast(close ? `已關閉 ${time} 時段` : `已開放 ${time} 時段`);
+  renderAdminToday();
 };
 
 window.filterBookings = () => {
