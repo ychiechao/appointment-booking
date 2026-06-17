@@ -204,6 +204,27 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
 .tag-active{background:#D1FAE5;color:#065F46}
 .tag-disabled{background:#FEE2E2;color:#991B1B}
 
+/* ── USER DASHBOARD ── */
+.user-dash-header{display:flex;align-items:center;gap:1rem;background:linear-gradient(135deg,var(--primary),#764ba2);border-radius:16px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;color:white}
+.user-dash-avatar{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;flex-shrink:0;border:2px solid rgba(255,255,255,.4)}
+.user-dash-name{font-size:1.15rem;font-weight:700}
+.user-dash-sub{font-size:.82rem;opacity:.85;margin-top:.1rem}
+.section-label{font-size:.82rem;font-weight:700;color:var(--g600);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem}
+.ud-shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem;margin-bottom:.25rem}
+.ud-shop-card{background:white;border:1px solid var(--g200);border-radius:12px;padding:1rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5rem;cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.ud-shop-card:hover{border-color:var(--primary);box-shadow:0 4px 12px rgba(108,99,255,.15);transform:translateY(-2px)}
+.ud-shop-icon{width:44px;height:44px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.ud-shop-name{font-size:.88rem;font-weight:700;color:var(--g800)}
+.ud-shop-meta{font-size:.75rem;color:var(--g400)}
+.ud-booking-item{display:flex;align-items:flex-start;gap:.75rem;padding:.85rem 0;border-bottom:1px solid var(--g100)}
+.ud-booking-item:last-child{border-bottom:none;padding-bottom:0}
+.ud-booking-dot{width:10px;height:10px;border-radius:50%;background:var(--primary);margin-top:.3rem;flex-shrink:0}
+.ud-booking-dot.past{background:var(--g400)}
+.ud-booking-info{flex:1}
+.ud-booking-date{font-weight:600;font-size:.9rem}
+.ud-booking-shop{font-size:.82rem;color:var(--g600);margin-top:.1rem}
+.ud-booking-svc{display:inline-block;font-size:.75rem;background:var(--primary-light);color:var(--primary);padding:1px 8px;border-radius:9999px;margin-top:.25rem}
+
 /* TOAST */
 .toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;display:flex;flex-direction:column;gap:.5rem}
 .toast{background:var(--g800);color:white;padding:.65rem 1rem;border-radius:8px;font-size:.88rem;animation:slideIn .2s ease;max-width:280px}
@@ -212,6 +233,10 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
+  .ud-shop-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+  .user-dash-header{padding:1rem 1.1rem}
+  .user-dash-avatar{width:44px;height:44px;font-size:1.1rem}
+  .user-dash-name{font-size:1rem}
   main{padding:1rem .75rem}
 
   /* Nav */
@@ -364,6 +389,32 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
         <button class="btn btn-gradient" onclick="submitApply()">送出申請</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ── USER DASHBOARD ── -->
+<div class="view" id="viewUser">
+  <div class="user-dash-header">
+    <div class="user-dash-avatar" id="udAvatar">U</div>
+    <div>
+      <div class="user-dash-name" id="udName">載入中...</div>
+      <div class="user-dash-sub">歡迎回來！</div>
+    </div>
+  </div>
+
+  <div class="section-label">📌 我預約過的店家</div>
+  <div id="udShopCards" class="ud-shop-grid">
+    <p class="text-sm" style="color:var(--g400);padding:.5rem 0">尚無紀錄</p>
+  </div>
+
+  <div class="section-label" style="margin-top:1.5rem">📅 即將到來的預約</div>
+  <div id="udUpcoming" class="card">
+    <p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--g400)">尚無預約</p>
+  </div>
+
+  <div class="section-label" style="margin-top:1.5rem">🗂 過去預約紀錄</div>
+  <div id="udPast" class="card">
+    <p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--g400)">尚無紀錄</p>
   </div>
 </div>
 
@@ -737,6 +788,7 @@ onAuthStateChanged(auth, async user => {
   } else if (!hash || hash === '/') {
     if (userRole === 'superadmin') { showView('super'); loadSuperData(); }
     else if (userRole === 'admin' && myShopId) { showAdminView(); }
+    else if (CU) { showView('user'); loadUserDashboard(); }
     else showView('landing');
   }
 });
@@ -772,6 +824,7 @@ window.goHome = () => {
   location.hash = '/';
   if (userRole==='superadmin') { showView('super'); loadSuperData(); }
   else if (userRole==='admin' && myShopId) showAdminView();
+  else if (CU) { showView('user'); loadUserDashboard(); }
   else showView('landing');
 };
 window.showAdminView = async () => {
@@ -1098,8 +1151,10 @@ window.submitBooking = async () => {
     const bid=`${CU.uid}_${selectedDate}_${selectedSlot}_${Date.now()}`.replace(/:/g,'');
     const newCnt=(slot.bookedCount||0)+1, cap=slot.capacity||shopSettings.defaultSlotCapacity||1;
     const batch=writeBatch(db);
-    batch.set(doc(db,'shops',shopId,'bookings',bid),{userId:CU.uid,userName:name,userPhone:phone,date:selectedDate,time:selectedSlot,service,note,status:'confirmed',createdAt:serverTimestamp()});
+    const shopName = shopSettings.heroTitle || shopSettings.serviceName || shopSettings.shopName || '';
+    batch.set(doc(db,'shops',shopId,'bookings',bid),{userId:CU.uid,userName:name,userPhone:phone,date:selectedDate,time:selectedSlot,service,note,status:'confirmed',shopId,shopName,createdAt:serverTimestamp()});
     batch.set(doc(db,'shops',shopId,'dailySchedules',selectedDate),{isOpen:true,slots:{[selectedSlot]:{status:newCnt>=cap?'booked':'available',bookedCount:newCnt,capacity:cap}}},{merge:true});
+    batch.set(doc(db,'users',CU.uid,'bookings',bid),{shopId,shopName,date:selectedDate,time:selectedSlot,service,status:'confirmed',bookingId:bid});
     await batch.commit();
     toast('預約成功！','success');
     document.getElementById('bookingFormCard').classList.add('hidden'); selectedSlot=null;
@@ -1137,6 +1192,70 @@ window.askCancel = id => {
   document.getElementById('confirmCancelBtn').onclick=()=>cancelBooking(id,currentShopId||myShopId);
 };
 
+async function loadUserDashboard() {
+  if (!CU) return;
+  // 頭像與名稱
+  const initials = (CU.displayName||'U').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('udAvatar').textContent = initials;
+  document.getElementById('udName').textContent = CU.displayName || CU.email;
+
+  // 讀取 users/{uid}/bookings
+  const snap = await getDocs(collection(db,'users',CU.uid,'bookings'));
+  const bookings = snap.docs.map(d=>({id:d.id,...d.data()}))
+    .filter(b=>b.status==='confirmed')
+    .sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
+
+  const todayStr = toDStr(today);
+
+  // 店家小卡（去重）
+  const shopMap = {};
+  bookings.forEach(b=>{ if(!shopMap[b.shopId]) shopMap[b.shopId]={shopId:b.shopId,shopName:b.shopName,cnt:0}; shopMap[b.shopId].cnt++; });
+  const shops = Object.values(shopMap);
+  document.getElementById('udShopCards').innerHTML = shops.length
+    ? shops.map(s=>`
+      <div class="ud-shop-card" onclick="location.hash='/book/${s.shopId}'">
+        <div class="ud-shop-icon">🏪</div>
+        <div class="ud-shop-name">${s.shopName||'店家'}</div>
+        <div class="ud-shop-meta">${s.cnt} 筆預約</div>
+        <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;margin-top:.25rem">前往預約</button>
+      </div>`).join('')
+    : `<p class="text-sm" style="color:var(--g400);padding:.5rem 0">尚無紀錄</p>`;
+
+  // 即將到來
+  const upcoming = bookings.filter(b=>b.date>=todayStr);
+  document.getElementById('udUpcoming').innerHTML = upcoming.length
+    ? upcoming.map(b=>`
+      <div class="ud-booking-item">
+        <div class="ud-booking-dot"></div>
+        <div class="ud-booking-info">
+          <div class="ud-booking-date">📅 ${fmtDate(b.date)} ${b.time}</div>
+          <div class="ud-booking-shop">🏪 ${b.shopName||'店家'}</div>
+          ${b.service?`<span class="ud-booking-svc">${b.service}</span>`:''}
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="askCancelUser('${b.id}','${b.shopId}')">取消</button>
+      </div>`).join('')
+    : `<p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--g400)">目前無即將到來的預約</p>`;
+
+  // 過去
+  const past = bookings.filter(b=>b.date<todayStr).reverse();
+  document.getElementById('udPast').innerHTML = past.length
+    ? past.map(b=>`
+      <div class="ud-booking-item">
+        <div class="ud-booking-dot past"></div>
+        <div class="ud-booking-info">
+          <div class="ud-booking-date" style="color:var(--g600)">${fmtDate(b.date)} ${b.time}</div>
+          <div class="ud-booking-shop">🏪 ${b.shopName||'店家'}</div>
+          ${b.service?`<span class="ud-booking-svc">${b.service}</span>`:''}
+        </div>
+      </div>`).join('')
+    : `<p class="text-sm" style="text-align:center;padding:1rem 0;color:var(--g400)">尚無過去紀錄</p>`;
+}
+
+window.askCancelUser = (id, shopId) => {
+  document.getElementById('confirmModal').classList.remove('hidden');
+  document.getElementById('confirmCancelBtn').onclick = () => cancelBooking(id, shopId);
+};
+
 async function cancelBooking(id, shopId) {
   const b=[...myBookings,...allBookings].find(x=>x.id===id); if(!b) return;
   try {
@@ -1146,10 +1265,12 @@ async function cancelBooking(id, shopId) {
     const batch=writeBatch(db);
     batch.update(doc(db,'shops',shopId,'bookings',id),{status:'cancelled'});
     batch.set(doc(db,'shops',shopId,'dailySchedules',b.date),{slots:{[b.time]:{...s,status:'available',bookedCount:newCnt,capacity:cap}}},{merge:true});
+    batch.delete(doc(db,'users',CU.uid,'bookings',id));
     await batch.commit();
     toast('已取消預約'); closeModal('confirmModal');
     loadMyShopBookings(); if(myShopId===shopId){loadAdminData();renderAdminToday();}
     if(selectedDate===b.date){await loadDailyData(shopId,selectedDate);renderSlots(selectedDate);}
+    if(document.getElementById('viewUser')?.classList.contains('active')) loadUserDashboard();
   } catch(e){toast('取消失敗','error');}
 }
 
