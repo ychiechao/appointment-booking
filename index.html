@@ -1541,6 +1541,7 @@ document.querySelectorAll('#viewAdmin .admin-tab').forEach(btn=>btn.addEventList
   if(btn.dataset.panel==='stats') renderStatsTable();
   if(btn.dataset.panel==='today') renderAdminToday();
   if(btn.dataset.panel==='bookings') { renderAdminCal(); filterBookings(); }
+  if(btn.dataset.panel==='settings') renderSettingsForm();
 }));
 
 function toDStr(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
