@@ -311,6 +311,10 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
 </head>
 <body>
 
+<div id="inAppBanner" style="display:none;background:#EF4444;color:white;text-align:center;padding:.6rem 1rem;font-size:.88rem;font-weight:500;line-height:1.5;position:sticky;top:0;z-index:200">
+  ⚠️ 偵測到您使用 App 內建瀏覽器，<strong>Google 登入將會失敗</strong>。<br>
+  請複製網址，改用 <strong>Chrome</strong> 或 <strong>Safari</strong> 開啟後再登入。
+</div>
 <nav>
   <div class="nav-brand" onclick="goHome()">✨ 超好用預約</div>
   <div class="nav-right">
@@ -1744,6 +1748,14 @@ document.querySelectorAll('#viewAdmin .admin-tab').forEach(btn=>btn.addEventList
   if(btn.dataset.panel==='bookings') { renderAdminCal(); filterBookings(); }
   if(btn.dataset.panel==='settings') renderSettingsForm();
 }));
+
+// 偵測 in-app browser
+(()=>{
+  const ua = navigator.userAgent || '';
+  const isInApp = /FBAN|FBAV|Instagram|Line\/|GSA\/|Gmail|Messenger|Twitter|Snapchat|TikTok|MicroMessenger/i.test(ua)
+    || (/iPhone|iPad|iPod|Android/i.test(ua) && /wv\)|WebView/i.test(ua));
+  if (isInApp) document.getElementById('inAppBanner').style.display = 'block';
+})();
 
 function toDStr(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function fmtDate(s){const[,m,d]=s.split('-');const days=['日','一','二','三','四','五','六'];return `${m}/${d}(${days[new Date(s).getDay()]})`;}
